@@ -24,6 +24,7 @@ const stateRef = ref(db, "bingo");
 
 const gridEl = document.getElementById("grid");
 const numberEl = document.getElementById("number");
+const lastNumbersEl = document.getElementById("lastNumbers");
 
 const cells = {};
 
@@ -72,10 +73,21 @@ function render(history = [], current = null) {
 
 onValue(stateRef, (snap) => {
   const state = snap.val();
-
   if (!state) return;
 
-  numberEl.textContent = state.current || 0;
+  const history = state.history || [];
+
+  // 3 derniers tirages
+  const last3 = history.slice(-3).reverse();
+
+  lastNumbersEl.innerHTML = "";
+
+  last3.forEach((n) => {
+    const el = document.createElement("div");
+    el.className = "last-chip";
+    el.textContent = n;
+    lastNumbersEl.appendChild(el);
+  });
 
   render(state.history || [], state.current);
 });

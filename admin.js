@@ -122,7 +122,7 @@ async function resetGame() {
 
   resetArmed = false;
 
-  setStatus("✔ Reset effectué");
+  setStatus("✔ On démarque !");
 }
 
 // ----------------------
