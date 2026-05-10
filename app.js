@@ -25,51 +25,38 @@ const stateRef = ref(db, "bingo");
 const gridEl = document.getElementById("grid");
 const numberEl = document.getElementById("number");
 
-// ----------------------------
-// BUILD GRID 1 → 99
-// ----------------------------
+// ----------------------
+// RENDER
+// ----------------------
 
-const cells = {};
-
-function buildGrid() {
+function render(history = [], current = null) {
   gridEl.innerHTML = "";
 
-  for (let i = 1; i <= 99; i++) {
+  history.forEach((n) => {
     const cell = document.createElement("div");
+
     cell.className = "cell";
-    cell.textContent = i;
+
+    if (n === current) {
+      cell.classList.add("latest");
+    }
+
+    cell.textContent = n;
 
     gridEl.appendChild(cell);
-    cells[i] = cell;
-  }
-}
-
-buildGrid();
-
-// ----------------------------
-// UPDATE GRID
-// ----------------------------
-
-function updateGrid(history = [], current = null) {
-  const set = new Set(history);
-
-  Object.entries(cells).forEach(([n, el]) => {
-    const num = Number(n);
-
-    el.classList.toggle("active", set.has(num));
-    el.classList.toggle("latest", num === current);
   });
 }
 
-// ----------------------------
-// LIVE FIREBASE SYNC
-// ----------------------------
+// ----------------------
+// LIVE FIREBASE
+// ----------------------
 
 onValue(stateRef, (snap) => {
   const state = snap.val();
+
   if (!state) return;
 
   numberEl.textContent = state.current || 0;
 
-  updateGrid(state.history || [], state.current);
+  render(state.history || [], state.current);
 });

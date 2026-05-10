@@ -1,40 +1,124 @@
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #f6f6f6;
+  color: #111;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.header {
+  text-align: center;
+  padding: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+/* ---------------- CURRENT ---------------- */
+
+.current-box {
+  text-align: center;
+  margin: 10px 0 30px;
+}
+
+.label {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.big-number {
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ---------------- GRID ---------------- */
+
+.bingo-grid,
 .grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 8px;
-  max-width: 600px;
+
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+
+  gap: 12px;
+
+  max-width: 1000px;
+
   margin: auto;
+
+  padding: 20px;
 }
 
-.bingo-grid {
-  display: grid;
-  grid-template-columns: repeat(10, minmax(28px, 1fr));
-  gap: 6px;
-  max-width: 500px;
-  margin: 20px auto;
-}
+/* ---------------- CELLS ---------------- */
 
 .cell {
+  background: white;
+
+  border-radius: 16px;
+
   aspect-ratio: 1;
-  font-size: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.04);
 }
+
+/* hover admin */
 
 .cell:hover {
-  transform: scale(1.05);
-  background: #1c2740;
+  transform: translateY(-2px);
 }
 
-/* déjà joué */
-.cell.used {
-  background: #2b3247;
-  color: #666;
-  opacity: 0.5;
-  cursor: not-allowed;
+/* dernier tirage */
+
+.latest {
+  background: #111;
+  color: white;
+
+  transform: scale(1.06);
 }
 
-/* actif (optionnel highlight dernier cliqué) */
-.cell.latest {
-  background: #ffcc00;
-  color: black;
-  font-weight: bold;
+/* ---------------- ADMIN ---------------- */
+
+.topbar {
+  text-align: center;
+  padding: 20px;
+}
+
+.status {
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+button {
+  border: none;
+  background: #111;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
 }

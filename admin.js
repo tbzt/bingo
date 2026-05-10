@@ -27,8 +27,6 @@ const stateRef = ref(db, "bingo");
 const gridEl = document.getElementById("adminGrid");
 const statusEl = document.getElementById("status");
 
-let state = { current: 0, history: [] };
-
 // ----------------------
 // STATUS
 // ----------------------
@@ -38,44 +36,28 @@ function setStatus(msg) {
 }
 
 // ----------------------
-// GRID
+// RENDER
 // ----------------------
 
-const cells = {};
-
-function buildGrid() {
+function render(state) {
   gridEl.innerHTML = "";
 
+  const used = new Set(state.history || []);
+
   for (let i = 1; i <= 99; i++) {
+    if (used.has(i)) continue;
+
     const cell = document.createElement("div");
+
     cell.className = "cell";
     cell.textContent = i;
 
     cell.addEventListener("click", () => {
-      if (cell.classList.contains("used")) return;
       sendNumber(i);
     });
 
     gridEl.appendChild(cell);
-    cells[i] = cell;
   }
-}
-
-// ----------------------
-// UPDATE UI STATE
-// ----------------------
-
-function render(state) {
-  const history = new Set(state.history || []);
-
-  Object.entries(cells).forEach(([n, cell]) => {
-    const num = Number(n);
-
-    const used = history.has(num);
-
-    cell.classList.toggle("used", used);
-    cell.classList.toggle("latest", num === state.current);
-  });
 }
 
 // ----------------------
@@ -86,32 +68,33 @@ async function sendNumber(n) {
   setStatus(`Envoi ${n}...`);
 
   const snap = await get(stateRef);
-  const data = snap.exists() ? snap.val() : { current: 0, history: [] };
 
-  data.current = n;
+  const state = snap.exists() ? snap.val() : { current: 0, history: [] };
 
-  if (!data.history.includes(n)) {
-    data.history.push(n);
+  state.current = n;
+
+  if (!state.history.includes(n)) {
+    state.history.push(n);
   }
 
-  await set(stateRef, data);
+  await set(stateRef, state);
 
   setStatus(`✔ ${n} envoyé`);
 }
 
 // ----------------------
-// RESET (DOUBLE CLICK SAFE)
+// RESET
 // ----------------------
 
 let resetArmed = false;
-let resetTimeout = null;
 
 async function resetGame() {
   if (!resetArmed) {
     resetArmed = true;
-    setStatus("⚠ Re-clique pour confirmer reset");
 
-    resetTimeout = setTimeout(() => {
+    setStatus("⚠ Reclique pour confirmer");
+
+    setTimeout(() => {
       resetArmed = false;
       setStatus("Prêt");
     }, 3000);
@@ -119,26 +102,25 @@ async function resetGame() {
     return;
   }
 
-  clearTimeout(resetTimeout);
-
   await set(stateRef, {
     current: 0,
     history: [],
   });
 
-  setStatus("✔ reset effectué");
   resetArmed = false;
+
+  setStatus("✔ Reset effectué");
 }
 
 // ----------------------
-// LIVE SYNC (si modifié ailleurs)
+// LIVE SYNC
 // ----------------------
 
 onValue(stateRef, (snap) => {
-  const newState = snap.val();
-  if (!newState) return;
+  const state = snap.val();
 
-  state = newState;
+  if (!state) return;
+
   render(state);
 });
 
@@ -148,5 +130,4 @@ onValue(stateRef, (snap) => {
 
 document.getElementById("resetBtn").addEventListener("click", resetGame);
 
-buildGrid();
 setStatus("Prêt");
