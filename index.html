@@ -13,16 +13,24 @@
 
     <header class="header">
         <h1>🎱 Bingo Live</h1>
+        <div class="subtitle">Derniers numéros tirés</div>
     </header>
 
-    <div class="current">
-        <div class="label">Numéro tiré</div>
-        <div id="number" class="big-number">0</div>
-    </div>
+    <main class="container">
 
-    <div class="panel">
-        <div id="grid" class="grid"></div>
-    </div>
+        <!-- dernier numéro en grand -->
+        <div class="current-box">
+            <div class="label">Dernier tirage</div>
+            <div id="number" class="big-number">0</div>
+        </div>
+
+        <!-- grille historique -->
+        <section class="history-section">
+            <h2>Historique</h2>
+            <div id="historyGrid" class="history-grid"></div>
+        </section>
+
+    </main>
 
     <script type="module" src="index.js"></script>
 </body>

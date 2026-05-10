@@ -22,41 +22,36 @@ const db = getDatabase(app);
 
 const stateRef = ref(db, "bingo");
 
-// ----------------------
-// GRID INIT
-// ----------------------
+const numberEl = document.getElementById("number");
+const historyGrid = document.getElementById("historyGrid");
 
-const gridEl = document.getElementById("grid");
+// --------------------------
+// RENDER HISTORY GRID
+// --------------------------
 
-function buildGrid() {
-  gridEl.innerHTML = "";
+function renderHistory(history = []) {
+  historyGrid.innerHTML = "";
 
-  for (let i = 1; i <= 99; i++) {
+  // on prend les 20 derniers numéros
+  const last = history.slice(-20).reverse();
+
+  last.forEach((n) => {
     const cell = document.createElement("div");
-    cell.className = "cell";
-    cell.textContent = i;
-    gridEl.appendChild(cell);
-  }
+    cell.className = "history-cell";
+    cell.textContent = n;
+    historyGrid.appendChild(cell);
+  });
 }
 
-buildGrid();
-
-// ----------------------
+// --------------------------
 // LIVE SYNC
-// ----------------------
+// --------------------------
 
 onValue(stateRef, (snap) => {
   const state = snap.val();
   if (!state) return;
 
-  document.getElementById("number").textContent = state.current;
+  numberEl.textContent = state.current || 0;
 
-  const history = new Set(state.history || []);
-
-  document.querySelectorAll(".cell").forEach((cell) => {
-    const n = Number(cell.textContent);
-
-    cell.classList.toggle("active", history.has(n));
-    cell.classList.toggle("latest", n === state.current);
-  });
+  renderHistory(state.history || []);
 });

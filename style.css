@@ -2,66 +2,36 @@ body {
   margin: 0;
   font-family: system-ui, Arial;
   background: #0b0f1a;
-  color: #fff;
+  color: white;
 }
 
-/* ------------------ HEADER ------------------ */
+/* HEADER */
 
-.header,
-.topbar {
-  padding: 20px;
+.header {
   text-align: center;
+  padding: 20px;
   background: #121a2b;
   border-bottom: 1px solid #1f2a44;
 }
 
-h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-/* ------------------ ADMIN ------------------ */
-
-.admin .actions {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-}
-
-.status {
-  margin-top: 8px;
+.subtitle {
+  opacity: 0.6;
   font-size: 14px;
-  opacity: 0.8;
 }
 
-/* ------------------ BUTTONS ------------------ */
+/* LAYOUT */
 
-.btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.btn.danger {
-  background: #ff3b3b;
-  color: white;
-}
-
-/* ------------------ PANELS ------------------ */
-
-.panel {
+.container {
   max-width: 900px;
   margin: auto;
   padding: 20px;
 }
 
-/* ------------------ CURRENT DISPLAY ------------------ */
+/* CURRENT NUMBER */
 
-.current {
+.current-box {
   text-align: center;
-  margin-top: 40px;
+  margin: 30px 0;
 }
 
 .label {
@@ -70,60 +40,37 @@ h1 {
 }
 
 .big-number {
-  font-size: 100px;
+  font-size: 90px;
   font-weight: bold;
-  margin-top: 10px;
   color: #00d4ff;
   text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
 }
 
-/* ------------------ GRID ------------------ */
+/* HISTORY GRID */
 
-.grid-title {
+.history-section h2 {
+  font-size: 18px;
   margin-bottom: 10px;
-  opacity: 0.7;
-  text-align: center;
+  opacity: 0.8;
 }
 
-.grid {
+.history-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 
-.cell {
-  aspect-ratio: 1;
+.history-cell {
   background: #151c2e;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.15s;
   border: 1px solid #1f2a44;
+  border-radius: 10px;
+  text-align: center;
+  padding: 12px 0;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
-.cell:hover {
+.history-cell:hover {
   transform: scale(1.05);
   background: #1c2740;
-}
-
-/* ACTIVE NUMBERS */
-
-.cell.active {
-  background: #00c853;
-  color: black;
-  font-weight: bold;
-}
-
-.cell.latest {
-  background: #ffcc00;
-  color: black;
-  box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
-}
-
-/* VIEWER ONLY */
-
-.viewer .grid {
-  opacity: 0.9;
 }
