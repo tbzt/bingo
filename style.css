@@ -6,19 +6,17 @@
   margin: auto;
 }
 
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(28px, 1fr));
+  gap: 6px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
 .cell {
   aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #151c2e;
-  border: 1px solid #1f2a44;
-  border-radius: 8px;
-
-  cursor: pointer;
-  transition: 0.15s;
-  user-select: none;
+  font-size: 12px;
 }
 
 .cell:hover {
