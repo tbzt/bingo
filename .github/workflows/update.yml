@@ -1,5 +1,8 @@
 name: Update Bingo State
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -13,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repo
         uses: actions/checkout@v4
 
