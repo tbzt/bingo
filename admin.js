@@ -1,150 +1,79 @@
-// =====================
-// CONFIG (à remplir une fois)
-// =====================
+const gridEl = document.getElementById("adminGrid")
+const statusEl = document.getElementById("status")
 
 const CONFIG = {
-  token: "ghp_xxxxxxxxxxxxxxxxxxxxx",
-  owner: "tonUserGithub",
-  repo: "tonRepo",
-};
-
-// =====================
-
-const gridEl = document.getElementById("adminGrid");
-const statusEl = document.getElementById("status");
-
-let currentState = {
-  current: 0,
-  history: [],
-};
-
-let currentSha = null;
-
-function setStatus(text) {
-  statusEl.textContent = text;
+  owner: "tbzt",
+  repo: "bingo",
+  workflow: "update.yml",
+  branch: "main",
+  token: "ghp_xxxxxxxxxxxxxxxxx"
 }
 
-// =====================
+function setStatus(msg) {
+  statusEl.textContent = msg
+}
+
+// ------------------------
 // GRID UI
-// =====================
+// ------------------------
 
 function buildGrid() {
-  gridEl.innerHTML = "";
+  gridEl.innerHTML = ""
 
   for (let i = 1; i <= 99; i++) {
-    const cell = document.createElement("div");
-
-    cell.className = "cell";
-    cell.textContent = i;
-    cell.dataset.number = i;
+    const cell = document.createElement("div")
+    cell.className = "cell"
+    cell.textContent = i
 
     cell.addEventListener("click", () => {
-      if (currentState.history.includes(i)) return;
-      updateState(i);
-    });
+      triggerNumber(i)
+    })
 
-    gridEl.appendChild(cell);
+    gridEl.appendChild(cell)
   }
 }
 
-function refreshGrid() {
-  document.querySelectorAll(".cell").forEach((cell) => {
-    const num = parseInt(cell.dataset.number);
+// ------------------------
+// TRIGGER GITHUB ACTION
+// ------------------------
 
-    cell.classList.remove("active", "latest");
+async function triggerNumber(number) {
+  try {
+    setStatus(`Envoi du ${number}...`)
 
-    if (currentState.history.includes(num)) {
-      cell.classList.add("active");
+    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/actions/workflows/${CONFIG.workflow}/dispatches`
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${CONFIG.token}`,
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ref: CONFIG.branch,
+        inputs: {
+          number: String(number)
+        }
+      })
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(err)
     }
 
-    if (num === currentState.current) {
-      cell.classList.add("latest");
-    }
-  });
-}
+    setStatus(`✔ ${number} envoyé`)
 
-// =====================
-// GITHUB STATE LOAD
-// =====================
-
-async function loadState() {
-  try {
-    setStatus("Chargement...");
-
-    const res = await fetch(
-      `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/state.json`,
-      {
-        headers: {
-          Authorization: `Bearer ${CONFIG.token}`,
-          Accept: "application/vnd.github+json",
-        },
-      },
-    );
-
-    if (!res.ok) throw new Error("Erreur lecture state.json");
-
-    const file = await res.json();
-
-    currentSha = file.sha;
-
-    currentState = JSON.parse(atob(file.content));
-
-    refreshGrid();
-
-    setStatus("OK");
-  } catch (e) {
-    console.error(e);
-    setStatus(e.message);
+  } catch (err) {
+    console.error(err)
+    setStatus("Erreur envoi GitHub Action")
   }
 }
 
-// =====================
-// UPDATE STATE (push GitHub)
-// =====================
-
-async function updateState(number) {
-  try {
-    setStatus(`Envoi ${number}...`);
-
-    currentState.current = number;
-    currentState.history.push(number);
-
-    const encoded = btoa(JSON.stringify(currentState, null, 2));
-
-    const res = await fetch(
-      `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/state.json`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${CONFIG.token}`,
-          Accept: "application/vnd.github+json",
-        },
-        body: JSON.stringify({
-          message: `Bingo ${number}`,
-          content: encoded,
-          sha: currentSha,
-        }),
-      },
-    );
-
-    if (!res.ok) throw new Error("Erreur GitHub update");
-
-    const data = await res.json();
-
-    currentSha = data.content.sha;
-
-    refreshGrid();
-
-    setStatus(`✔ ${number} envoyé`);
-  } catch (e) {
-    console.error(e);
-    setStatus(e.message);
-  }
-}
-
-// =====================
+// ------------------------
 // INIT
-// =====================
+// ------------------------
 
-buildGrid();
-loadState();
+buildGrid()
+setStatus("Prêt")
