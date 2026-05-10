@@ -26,6 +26,8 @@ const stateRef = ref(db, "bingo");
 const gridEl = document.getElementById("adminGrid");
 const statusEl = document.getElementById("status");
 
+let state = { current: 0, history: [] };
+
 // ----------------------
 // STATUS
 // ----------------------
@@ -38,6 +40,8 @@ function setStatus(msg) {
 // GRID
 // ----------------------
 
+const cells = {};
+
 function buildGrid() {
   gridEl.innerHTML = "";
 
@@ -47,11 +51,30 @@ function buildGrid() {
     cell.textContent = i;
 
     cell.addEventListener("click", () => {
+      if (cell.classList.contains("used")) return;
       sendNumber(i);
     });
 
     gridEl.appendChild(cell);
+    cells[i] = cell;
   }
+}
+
+// ----------------------
+// UPDATE UI STATE
+// ----------------------
+
+function render(state) {
+  const history = new Set(state.history || []);
+
+  Object.entries(cells).forEach(([n, cell]) => {
+    const num = Number(n);
+
+    const used = history.has(num);
+
+    cell.classList.toggle("used", used);
+    cell.classList.toggle("latest", num === state.current);
+  });
 }
 
 // ----------------------
@@ -62,34 +85,61 @@ async function sendNumber(n) {
   setStatus(`Envoi ${n}...`);
 
   const snap = await get(stateRef);
-  const state = snap.exists() ? snap.val() : { current: 0, history: [] };
+  const data = snap.exists() ? snap.val() : { current: 0, history: [] };
 
-  state.current = n;
-  state.history = state.history || [];
+  data.current = n;
 
-  if (!state.history.includes(n)) {
-    state.history.push(n);
+  if (!data.history.includes(n)) {
+    data.history.push(n);
   }
 
-  await set(stateRef, state);
+  await set(stateRef, data);
 
   setStatus(`✔ ${n} envoyé`);
 }
 
 // ----------------------
-// RESET
+// RESET (DOUBLE CLICK SAFE)
 // ----------------------
 
+let resetArmed = false;
+let resetTimeout = null;
+
 async function resetGame() {
-  setStatus("Reset...");
+  if (!resetArmed) {
+    resetArmed = true;
+    setStatus("⚠ Re-clique pour confirmer reset");
+
+    resetTimeout = setTimeout(() => {
+      resetArmed = false;
+      setStatus("Prêt");
+    }, 3000);
+
+    return;
+  }
+
+  clearTimeout(resetTimeout);
 
   await set(stateRef, {
     current: 0,
     history: [],
   });
 
-  setStatus("✔ reset");
+  setStatus("✔ reset effectué");
+  resetArmed = false;
 }
+
+// ----------------------
+// LIVE SYNC (si modifié ailleurs)
+// ----------------------
+
+onValue(stateRef, (snap) => {
+  const newState = snap.val();
+  if (!newState) return;
+
+  state = newState;
+  render(state);
+});
 
 // ----------------------
 // INIT

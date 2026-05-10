@@ -22,30 +22,48 @@ const db = getDatabase(app);
 
 const stateRef = ref(db, "bingo");
 
+const gridEl = document.getElementById("grid");
 const numberEl = document.getElementById("number");
-const historyGrid = document.getElementById("historyGrid");
 
-// --------------------------
-// RENDER HISTORY GRID
-// --------------------------
+// ----------------------------
+// BUILD GRID 1 → 99
+// ----------------------------
 
-function renderHistory(history = []) {
-  historyGrid.innerHTML = "";
+const cells = {};
 
-  // on prend les 20 derniers numéros
-  const last = history.slice(-20).reverse();
+function buildGrid() {
+  gridEl.innerHTML = "";
 
-  last.forEach((n) => {
+  for (let i = 1; i <= 99; i++) {
     const cell = document.createElement("div");
-    cell.className = "history-cell";
-    cell.textContent = n;
-    historyGrid.appendChild(cell);
+    cell.className = "cell";
+    cell.textContent = i;
+
+    gridEl.appendChild(cell);
+    cells[i] = cell;
+  }
+}
+
+buildGrid();
+
+// ----------------------------
+// UPDATE GRID
+// ----------------------------
+
+function updateGrid(history = [], current = null) {
+  const set = new Set(history);
+
+  Object.entries(cells).forEach(([n, el]) => {
+    const num = Number(n);
+
+    el.classList.toggle("active", set.has(num));
+    el.classList.toggle("latest", num === current);
   });
 }
 
-// --------------------------
-// LIVE SYNC
-// --------------------------
+// ----------------------------
+// LIVE FIREBASE SYNC
+// ----------------------------
 
 onValue(stateRef, (snap) => {
   const state = snap.val();
@@ -53,5 +71,5 @@ onValue(stateRef, (snap) => {
 
   numberEl.textContent = state.current || 0;
 
-  renderHistory(state.history || []);
+  updateGrid(state.history || [], state.current);
 });
