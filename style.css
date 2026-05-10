@@ -51,7 +51,7 @@ body {
   padding: 20px;
 }
 
-/* ---------------- CELLS ---------------- */
+/* ---------------- BASE CELL ---------------- */
 
 .cell {
   width: 60px;
@@ -69,16 +69,22 @@ body {
   transition: 0.2s ease;
 
   user-select: none;
+}
 
-  /* NON TIRÉ */
+/* ===================================================== */
+/* ===================== VIEWER ========================= */
+/* ===================================================== */
 
+/* NON TIRÉ = invisible */
+
+.viewer .cell {
   background: #dfe9ff;
   color: #dfe9ff;
 }
 
 /* NUMÉRO TIRÉ */
 
-.cell.active {
+.viewer .cell.active {
   background: #ffb347;
   color: #111;
 
@@ -89,7 +95,7 @@ body {
 
 /* DERNIER NUMÉRO */
 
-.cell.latest {
+.viewer .cell.latest {
   background: #ff9800;
 
   transform: scale(1.08);
@@ -99,11 +105,82 @@ body {
     0 12px 28px rgba(255, 152, 0, 0.45);
 }
 
-.used {
+/* ===================================================== */
+/* ====================== ADMIN ========================= */
+/* ===================================================== */
+
+/* NUMÉROS DISPONIBLES */
+
+.admin .cell {
+  background: white;
+  color: #111;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* hover */
+
+.admin .cell:hover {
+  transform: scale(1.05);
+}
+
+/* NUMÉRO DÉJÀ TIRÉ */
+
+.admin .cell.used {
   background: #d0d0d0;
   color: #777;
+
   opacity: 0.4;
+
   cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+/* DERNIER NUMÉRO */
+
+.admin .cell.latest {
+  background: #ff9800;
+  color: black;
+
+  transform: scale(1.08);
+
+  box-shadow:
+    0 0 0 4px rgba(255, 152, 0, 0.2),
+    0 12px 28px rgba(255, 152, 0, 0.45);
+}
+
+/* ---------------- BUTTONS ---------------- */
+
+button {
+  border: none;
+
+  background: #111;
+  color: white;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+/* ---------------- STATUS ---------------- */
+
+.status {
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 /* ---------------- MOBILE ---------------- */
@@ -118,7 +195,9 @@ body {
   .cell {
     width: 32px;
     height: 32px;
+
     border-radius: 8px;
+
     font-size: 12px;
   }
 
