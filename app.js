@@ -23,13 +23,12 @@ const db = getDatabase(app);
 const stateRef = ref(db, "bingo");
 
 const gridEl = document.getElementById("grid");
-const numberEl = document.getElementById("number");
 const lastNumbersEl = document.getElementById("lastNumbers");
 
 const cells = {};
 
 // ----------------------
-// BUILD GRID
+// GRID
 // ----------------------
 
 function buildGrid() {
@@ -37,12 +36,10 @@ function buildGrid() {
 
   for (let i = 1; i <= 99; i++) {
     const cell = document.createElement("div");
-
     cell.className = "cell";
     cell.textContent = i;
 
     gridEl.appendChild(cell);
-
     cells[i] = cell;
   }
 }
@@ -59,16 +56,13 @@ function render(history = [], current = null) {
   Object.entries(cells).forEach(([n, cell]) => {
     const num = Number(n);
 
-    const active = set.has(num);
-
-    cell.classList.toggle("active", active);
-
+    cell.classList.toggle("active", set.has(num));
     cell.classList.toggle("latest", num === current);
   });
 }
 
 // ----------------------
-// LIVE FIREBASE
+// FIREBASE
 // ----------------------
 
 onValue(stateRef, (snap) => {
@@ -77,7 +71,7 @@ onValue(stateRef, (snap) => {
 
   const history = state.history || [];
 
-  // 3 derniers tirages
+  // 🔥 3 derniers tirages uniquement
   const last3 = history.slice(-3).reverse();
 
   lastNumbersEl.innerHTML = "";
@@ -89,5 +83,5 @@ onValue(stateRef, (snap) => {
     lastNumbersEl.appendChild(el);
   });
 
-  render(state.history || [], state.current);
+  render(history, state.current);
 });

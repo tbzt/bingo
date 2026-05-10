@@ -34,6 +34,29 @@ body {
   line-height: 1;
 }
 
+.last-numbers {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.last-chip {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #ffb347;
+  color: #111;
+
+  font-weight: 800;
+}
+
 /* ---------------- GRID ---------------- */
 
 .bingo-grid,
