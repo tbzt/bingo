@@ -25,25 +25,44 @@ const stateRef = ref(db, "bingo");
 const gridEl = document.getElementById("grid");
 const numberEl = document.getElementById("number");
 
+const cells = {};
+
 // ----------------------
-// RENDER
+// BUILD GRID
 // ----------------------
 
-function render(history = [], current = null) {
+function buildGrid() {
   gridEl.innerHTML = "";
 
-  history.forEach((n) => {
+  for (let i = 1; i <= 99; i++) {
     const cell = document.createElement("div");
 
     cell.className = "cell";
-
-    if (n === current) {
-      cell.classList.add("latest");
-    }
-
-    cell.textContent = n;
+    cell.textContent = i;
 
     gridEl.appendChild(cell);
+
+    cells[i] = cell;
+  }
+}
+
+buildGrid();
+
+// ----------------------
+// UPDATE GRID
+// ----------------------
+
+function render(history = [], current = null) {
+  const set = new Set(history);
+
+  Object.entries(cells).forEach(([n, cell]) => {
+    const num = Number(n);
+
+    const active = set.has(num);
+
+    cell.classList.toggle("active", active);
+
+    cell.classList.toggle("latest", num === current);
   });
 }
 

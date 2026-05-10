@@ -45,16 +45,28 @@ function render(state) {
   const used = new Set(state.history || []);
 
   for (let i = 1; i <= 99; i++) {
-    if (used.has(i)) continue;
-
     const cell = document.createElement("div");
 
     cell.className = "cell";
     cell.textContent = i;
 
-    cell.addEventListener("click", () => {
-      sendNumber(i);
-    });
+    // numéro déjà tiré
+    if (used.has(i)) {
+      cell.classList.add("active");
+
+      cell.style.pointerEvents = "none";
+      cell.style.opacity = "0.35";
+      cell.style.cursor = "not-allowed";
+    } else {
+      cell.addEventListener("click", () => {
+        sendNumber(i);
+      });
+    }
+
+    // dernier numéro
+    if (i === state.current) {
+      cell.classList.add("latest");
+    }
 
     gridEl.appendChild(cell);
   }

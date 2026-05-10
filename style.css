@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  background: #f6f6f6;
+  background: #f4f7ff;
   color: #111;
 }
 
@@ -14,14 +14,13 @@ body {
 
 .header h1 {
   margin: 0;
-  font-size: 28px;
 }
 
 /* ---------------- CURRENT ---------------- */
 
 .current-box {
   text-align: center;
-  margin: 10px 0 30px;
+  margin-bottom: 30px;
 }
 
 .label {
@@ -41,11 +40,11 @@ body {
 .grid {
   display: grid;
 
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-template-columns: repeat(10, 60px);
 
-  gap: 12px;
+  gap: 10px;
 
-  max-width: 1000px;
+  justify-content: center;
 
   margin: auto;
 
@@ -55,70 +54,68 @@ body {
 /* ---------------- CELLS ---------------- */
 
 .cell {
-  background: white;
+  width: 60px;
+  height: 60px;
 
-  border-radius: 16px;
-
-  aspect-ratio: 1;
+  border-radius: 14px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
-  font-size: 28px;
-
+  font-size: 22px;
   font-weight: 700;
 
-  cursor: pointer;
+  transition: 0.2s ease;
 
-  transition: 0.15s ease;
+  user-select: none;
+
+  /* NON TIRÉ */
+
+  background: #dfe9ff;
+  color: #dfe9ff;
+}
+
+/* NUMÉRO TIRÉ */
+
+.cell.active {
+  background: #ffb347;
+  color: #111;
 
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.06),
-    0 8px 24px rgba(0, 0, 0, 0.04);
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    0 10px 20px rgba(255, 179, 71, 0.3);
 }
 
-/* hover admin */
+/* DERNIER NUMÉRO */
 
-.cell:hover {
-  transform: translateY(-2px);
+.cell.latest {
+  background: #ff9800;
+
+  transform: scale(1.08);
+
+  box-shadow:
+    0 0 0 4px rgba(255, 152, 0, 0.2),
+    0 12px 28px rgba(255, 152, 0, 0.45);
 }
 
-/* dernier tirage */
+/* ---------------- MOBILE ---------------- */
 
-.latest {
-  background: #111;
-  color: white;
+@media (max-width: 700px) {
+  .bingo-grid,
+  .grid {
+    grid-template-columns: repeat(10, 32px);
+    gap: 5px;
+  }
 
-  transform: scale(1.06);
-}
+  .cell {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
 
-/* ---------------- ADMIN ---------------- */
-
-.topbar {
-  text-align: center;
-  padding: 20px;
-}
-
-.status {
-  opacity: 0.7;
-  margin-top: 8px;
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-button {
-  border: none;
-  background: #111;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 14px;
+  .big-number {
+    font-size: 64px;
+  }
 }
