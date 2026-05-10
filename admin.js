@@ -83,6 +83,9 @@ async function sendNumber(n) {
 
   const state = snap.exists() ? snap.val() : { current: 0, history: [] };
 
+  // sécurité si history absent
+  state.history = state.history || [];
+
   state.current = n;
 
   if (!state.history.includes(n)) {
