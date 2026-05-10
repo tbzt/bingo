@@ -1,15 +1,15 @@
 name: Update Bingo State
 
-permissions:
-  contents: write
-
 on:
   workflow_dispatch:
     inputs:
       number:
-        description: "Numéro tiré"
+        description: "Numéro tiré ou 'reset'"
         required: true
         type: string
+
+permissions:
+  contents: write
 
 jobs:
   update:
@@ -19,29 +19,32 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Update state.json
+      - name: Init state.json if missing
         run: |
-          NUMBER="${{ inputs.number }}"
-
-          echo "Updating with number: $NUMBER"
-
-          # Si state.json n'existe pas encore, on le crée
           if [ ! -f state.json ]; then
             echo '{"current":0,"history":[]}' > state.json
           fi
 
-          # Mise à jour du JSON
+      - name: Update state (reset or number)
+        run: |
+          NUMBER="${{ inputs.number }}"
+
+          echo "Input: $NUMBER"
+
+          if [ "$NUMBER" = "reset" ]; then
+            echo '{"current":0,"history":[]}' > state.json
+            echo "Reset effectué"
+            exit 0
+          fi
+
           node - <<EOF
           const fs = require('fs');
 
           const number = Number(process.env.NUMBER);
-
           const state = JSON.parse(fs.readFileSync('state.json', 'utf8'));
 
           state.current = number;
-
-          if (!state.history) state.history = [];
-
+          state.history = state.history || [];
           state.history.push(number);
 
           fs.writeFileSync('state.json', JSON.stringify(state, null, 2));
