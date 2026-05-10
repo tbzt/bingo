@@ -52,11 +52,9 @@ function render(state) {
 
     // numéro déjà tiré
     if (used.has(i)) {
-      cell.classList.add("active");
+      cell.classList.add("used");
 
       cell.style.pointerEvents = "none";
-      cell.style.opacity = "0.35";
-      cell.style.cursor = "not-allowed";
     } else {
       cell.addEventListener("click", () => {
         sendNumber(i);

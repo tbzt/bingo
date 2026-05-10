@@ -99,6 +99,13 @@ body {
     0 12px 28px rgba(255, 152, 0, 0.45);
 }
 
+.used {
+  background: #d0d0d0;
+  color: #777;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* ---------------- MOBILE ---------------- */
 
 @media (max-width: 700px) {
