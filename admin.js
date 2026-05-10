@@ -1,21 +1,42 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  set,
+  get,
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCJgW4LkBkMzdeJJA8LStFnE3AoMQ1E4S4",
+  authDomain: "bingo-14eda.firebaseapp.com",
+  databaseURL:
+    "https://bingo-14eda-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "bingo-14eda",
+  storageBucket: "bingo-14eda.firebasestorage.app",
+  messagingSenderId: "942041596394",
+  appId: "1:942041596394:web:261f18776fc28a88753293",
+  measurementId: "G-14KXTD29EV",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const stateRef = ref(db, "bingo");
+
 const gridEl = document.getElementById("adminGrid");
 const statusEl = document.getElementById("status");
 
-const CONFIG = {
-  owner: "tbzt",
-  repo: "bingo",
-  workflow: "update.yml",
-  branch: "main",
-  token: "ghp_xxxxxxxxxxxxxxxxx",
-};
+// ----------------------
+// STATUS
+// ----------------------
 
 function setStatus(msg) {
   statusEl.textContent = msg;
 }
 
-// ------------------------
-// GRID UI
-// ------------------------
+// ----------------------
+// GRID
+// ----------------------
 
 function buildGrid() {
   gridEl.innerHTML = "";
@@ -26,92 +47,55 @@ function buildGrid() {
     cell.textContent = i;
 
     cell.addEventListener("click", () => {
-      triggerNumber(i);
+      sendNumber(i);
     });
 
     gridEl.appendChild(cell);
   }
 }
 
-// ------------------------
-// TRIGGER WORKFLOW
-// ------------------------
+// ----------------------
+// SEND NUMBER
+// ----------------------
 
-async function triggerNumber(number) {
-  try {
-    setStatus(`Envoi du ${number}...`);
+async function sendNumber(n) {
+  setStatus(`Envoi ${n}...`);
 
-    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/actions/workflows/${CONFIG.workflow}/dispatches`;
+  const snap = await get(stateRef);
+  const state = snap.exists() ? snap.val() : { current: 0, history: [] };
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${CONFIG.token}`,
-        Accept: "application/vnd.github+json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ref: CONFIG.branch,
-        inputs: {
-          number: String(number),
-        },
-      }),
-    });
+  state.current = n;
+  state.history = state.history || [];
 
-    const text = await res.text();
-
-    if (!res.ok) {
-      console.error("GitHub error:", res.status, text);
-      setStatus(`❌ Erreur (${res.status})`);
-      return;
-    }
-
-    setStatus(`✔ ${number} envoyé`);
-    console.log("Workflow triggered:", number);
-  } catch (err) {
-    console.error(err);
-    setStatus("Erreur réseau / GitHub API");
+  if (!state.history.includes(n)) {
+    state.history.push(n);
   }
+
+  await set(stateRef, state);
+
+  setStatus(`✔ ${n} envoyé`);
 }
 
-document.getElementById("resetBtn").addEventListener("click", resetGame);
+// ----------------------
+// RESET
+// ----------------------
 
 async function resetGame() {
-  try {
-    setStatus("Reset en cours...");
+  setStatus("Reset...");
 
-    const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/actions/workflows/${CONFIG.workflow}/dispatches`;
+  await set(stateRef, {
+    current: 0,
+    history: [],
+  });
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${CONFIG.token}`,
-        Accept: "application/vnd.github+json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ref: CONFIG.branch,
-        inputs: {
-          number: "reset",
-        },
-      }),
-    });
-
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(err);
-    }
-
-    setStatus("✔ Reset envoyé");
-  } catch (err) {
-    console.error(err);
-    setStatus("❌ Erreur reset");
-  }
+  setStatus("✔ reset");
 }
 
-// ------------------------
+// ----------------------
 // INIT
-// ------------------------
+// ----------------------
+
+document.getElementById("resetBtn").addEventListener("click", resetGame);
 
 buildGrid();
 setStatus("Prêt");

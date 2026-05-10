@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bingo</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Bingo Live</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="screen">
-        <div class="title">NUMÉRO ACTUEL</div>
+    <h1 id="number">0</h1>
 
-        <div id="number" class="number">0</div>
+    <div id="grid"></div>
 
-        <div id="grid" class="grid"></div>
-    </div>
-
-    <script src="app.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 
 </html>

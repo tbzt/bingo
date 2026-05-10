@@ -1,58 +1,62 @@
-const numberEl = document.getElementById("number");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  onValue,
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCJgW4LkBkMzdeJJA8LStFnE3AoMQ1E4S4",
+  authDomain: "bingo-14eda.firebaseapp.com",
+  databaseURL:
+    "https://bingo-14eda-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "bingo-14eda",
+  storageBucket: "bingo-14eda.firebasestorage.app",
+  messagingSenderId: "942041596394",
+  appId: "1:942041596394:web:261f18776fc28a88753293",
+  measurementId: "G-14KXTD29EV",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const stateRef = ref(db, "bingo");
+
+// ----------------------
+// GRID INIT
+// ----------------------
+
 const gridEl = document.getElementById("grid");
 
-let lastNumber = null;
-
-function buildGrid(history, current) {
+function buildGrid() {
   gridEl.innerHTML = "";
 
   for (let i = 1; i <= 99; i++) {
     const cell = document.createElement("div");
-
     cell.className = "cell";
-
     cell.textContent = i;
-
-    if (history.includes(i)) {
-      cell.classList.add("active");
-    }
-
-    if (i === current) {
-      cell.classList.add("latest");
-    }
-
     gridEl.appendChild(cell);
   }
 }
 
-function animateNumber(number) {
-  numberEl.textContent = number;
+buildGrid();
 
-  numberEl.classList.remove("animate");
+// ----------------------
+// LIVE SYNC
+// ----------------------
 
-  void numberEl.offsetWidth;
+onValue(stateRef, (snap) => {
+  const state = snap.val();
+  if (!state) return;
 
-  numberEl.classList.add("animate");
-}
+  document.getElementById("number").textContent = state.current;
 
-async function loadState() {
-  try {
-    const response = await fetch(`./state.json?t=${Date.now()}`);
+  const history = new Set(state.history || []);
 
-    const data = await response.json();
+  document.querySelectorAll(".cell").forEach((cell) => {
+    const n = Number(cell.textContent);
 
-    if (data.current !== lastNumber) {
-      animateNumber(data.current);
-
-      lastNumber = data.current;
-    }
-
-    buildGrid(data.history || [], data.current);
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-loadState();
-
-setInterval(loadState, 2000);
+    cell.classList.toggle("active", history.has(n));
+    cell.classList.toggle("latest", n === state.current);
+  });
+});

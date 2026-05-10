@@ -1,31 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>Bingo Admin</title>
-
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h2>Admin Bingo</h2>
 
-    <div class="admin">
+    <div id="status">Prêt</div>
 
-        <h1>🎱 Admin Bingo</h1>
+    <button id="resetBtn">Reset</button>
 
-        <div id="adminGrid" class="grid"></div>
+    <div id="adminGrid"></div>
 
-        <div id="status" class="status"></div>
-
-    </div>
-    <button id="resetBtn">Reset partie</button>
-
-    <script src="admin.js"></script>
-
-
-
+    <script type="module" src="admin.js"></script>
 </body>
 
 </html>
