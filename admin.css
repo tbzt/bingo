@@ -99,7 +99,7 @@
   align-items: center;
   justify-content: center;
 
-  font-size: clamp(9px, 1.1vw, 14px); /* FIX responsive sans rupture */
+  font-size: clamp(12px, 1.4vw, 16px);
   font-weight: 900;
 
   border-radius: 6px;
@@ -219,7 +219,7 @@
   }
 
   .admin .cell {
-    font-size: 11px;
+    font-size: clamp(10px, 2.8vw, 13px);
     border-radius: 5px;
   }
 
@@ -243,7 +243,7 @@
   }
 
   .admin .cell {
-    font-size: 12px;
+    font-size: 13px;
     border-radius: 2px;
 
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);

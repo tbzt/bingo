@@ -183,21 +183,19 @@ body {
 /* SIDEBAR RULES */
 /* ===================================================== */
 
-.sidebar {
-  width: 320px;
-}
-
 .viewer .sidebar {
+  width: 320px;
+
   display: flex;
+  align-items: center; /* centre vertical */
   justify-content: center; /* centre horizontal */
-  align-items: flex-start; /* reste en haut */
 }
 
 .rules-card {
   background: white;
   border-radius: 18px;
   padding: 20px;
-
+  margin: auto; /* garantit centrage réel */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
