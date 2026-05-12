@@ -136,7 +136,7 @@ body {
   display: flex;
 
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
 
   gap: 40px;
 
@@ -145,6 +145,8 @@ body {
   margin: auto;
 
   padding: 20px;
+
+  min-height: calc(100vh - 120px);
 }
 
 /* ---------------- BOARD ---------------- */
@@ -157,6 +159,11 @@ body {
 
 .sidebar {
   width: 320px;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 100%;
 }
 
 /* ---------------- RULES ---------------- */
