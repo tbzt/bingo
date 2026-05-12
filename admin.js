@@ -80,6 +80,26 @@ function render(state) {
   }
 }
 
+function renderProgress(step) {
+  const order = ["quine", "doubleQuine", "bingo"];
+
+  order.forEach((s, index) => {
+    const el = document.getElementById(`step-${s}`);
+
+    el.classList.remove("active", "done");
+
+    const currentIndex = order.indexOf(step);
+
+    if (index < currentIndex) {
+      el.classList.add("done");
+    }
+
+    if (index === currentIndex) {
+      el.classList.add("active");
+    }
+  });
+}
+
 // ----------------------
 // SEND NUMBER
 // ----------------------
@@ -225,6 +245,7 @@ onValue(stateRef, (snap) => {
 
   render(state);
   renderRulesAdmin(state.rules || {});
+  renderProgress(state.rules?.step || "quine");
 });
 
 // ----------------------

@@ -227,6 +227,73 @@ body {
   cursor: not-allowed;
 }
 
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  margin: 20px 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  cursor: pointer;
+
+  min-width: 90px;
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background: #ccc;
+
+  margin-bottom: 6px;
+
+  transition: 0.2s ease;
+}
+
+.step.active .dot {
+  background: #ff9800;
+
+  transform: scale(1.2);
+
+  box-shadow: 0 0 12px rgba(255, 152, 0, 0.6);
+}
+
+.step.done .dot {
+  background: #111;
+}
+
+.step .label {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.step.active .label {
+  opacity: 1;
+}
+
+.step.done .label {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+.line {
+  width: 40px;
+  height: 2px;
+
+  background: #ddd;
+}
+
 /* ===================================================== */
 /* ===================== BUTTONS ======================= */
 /* ===================================================== */

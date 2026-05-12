@@ -42,17 +42,28 @@
 
                 <div class="rules-panel">
 
-                    <button class="btn step" onclick="setStep('quine')">
-                        QUINE
-                    </button>
+                    <div class="progress">
 
-                    <button class="btn step" onclick="setStep('doubleQuine')">
-                        DOUBLE QUINE
-                    </button>
+                        <div class="step" onclick="setStep('quine')" id="step-quine">
+                            <div class="dot"></div>
+                            <div class="label">QUINE</div>
+                        </div>
 
-                    <button class="btn step" onclick="setStep('bingo')">
-                        BINGO
-                    </button>
+                        <div class="line"></div>
+
+                        <div class="step" onclick="setStep('doubleQuine')" id="step-doubleQuine">
+                            <div class="dot"></div>
+                            <div class="label">DOUBLE</div>
+                        </div>
+
+                        <div class="line"></div>
+
+                        <div class="step" onclick="setStep('bingo')" id="step-bingo">
+                            <div class="dot"></div>
+                            <div class="label">BINGO</div>
+                        </div>
+
+                    </div>
 
                 </div>
 
