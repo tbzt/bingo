@@ -14,7 +14,6 @@ Fonctionnalités principales :
 
 ---
 
-
 # Fonctionnement
 
 admin.html permet :
@@ -34,27 +33,3 @@ index.html affiche :
 Toutes les mises à jour passent par Firebase Realtime Database.
 
 ---
-
-# Structure Firebase
-
-La base contient :
-
-```json
-{
-  "current": 42,
-  "history": [],
-  "rules": {
-    "keen": true,
-    "doublekeen": false,
-    "bingo": false
-  }
-}
-
-# Conseils
-
-Utiliser :
-
-- un écran TV fullscreen pour index.html
-- une tablette ou téléphone pour admin.html
-
-Le projet fonctionne très bien en local comme en ligne.
