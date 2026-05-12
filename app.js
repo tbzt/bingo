@@ -27,6 +27,12 @@ const lastNumbersEl = document.getElementById("lastNumbers");
 
 const cells = {};
 
+const overlayEl = document.getElementById("drawOverlay");
+const drawBallEl = document.getElementById("drawBall");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+let previousCurrent = null;
+
 // ----------------------
 // GRID
 // ----------------------
@@ -71,7 +77,14 @@ onValue(stateRef, (snap) => {
 
   const history = state.history || [];
 
-  // 🔥 3 derniers tirages uniquement
+  // animation nouveau tirage
+  if (previousCurrent !== null && state.current !== previousCurrent) {
+    animateDraw(state.current);
+  }
+
+  previousCurrent = state.current;
+
+  // derniers numéros
   const last3 = history.slice(-3).reverse();
 
   lastNumbersEl.innerHTML = "";
@@ -84,4 +97,27 @@ onValue(stateRef, (snap) => {
   });
 
   render(history, state.current);
+});
+
+function animateDraw(number) {
+  drawBallEl.textContent = number;
+
+  overlayEl.classList.remove("hidden");
+  overlayEl.classList.add("show");
+
+  setTimeout(() => {
+    overlayEl.classList.remove("show");
+
+    setTimeout(() => {
+      overlayEl.classList.add("hidden");
+    }, 400);
+  }, 1800);
+}
+
+fullscreenBtn.addEventListener("click", async () => {
+  if (!document.fullscreenElement) {
+    await document.documentElement.requestFullscreen();
+  } else {
+    await document.exitFullscreen();
+  }
 });
