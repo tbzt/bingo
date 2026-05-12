@@ -1,129 +1,39 @@
-/* layout admin */
+/* ===================================================== */
+/* LAYOUT DESKTOP */
+/* ===================================================== */
+
 .admin .admin-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 300px 1fr;
   gap: 24px;
+
   padding: 24px;
 }
 
-/* grid admin */
-.admin .grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 8px;
-}
+/* ===================================================== */
+/* HEADER */
+/* ===================================================== */
 
-/* cellule admin */
-.admin .cell {
-  background: white;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-}
-
-.admin .cell:hover {
-  transform: scale(1.05);
-}
-
-/* utilisée */
-.admin .cell.used {
-  background: #d0d0d0;
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* header admin */
 .admin-header {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  align-items: center;
+
+  padding: 16px 20px;
   background: white;
 }
 
-@media (max-width: 768px) {
-  /* layout passe en colonne */
-  .admin .admin-layout {
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-    gap: 12px;
-  }
-
-  /* header compact */
-  .admin-header {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-
-  /* panneau contrôle devient sticky */
-  .admin .control-panel {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    background: #f4f7ff;
-    padding-bottom: 10px;
-  }
-
-  /* boutons règles en ligne */
-  .rules-panel {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  .rules-panel .btn {
-    flex: 1;
-    font-size: 12px;
-    padding: 10px;
-  }
-
-  /* reset plus visible */
-  .btn.big {
-    font-size: 14px;
-    padding: 14px;
-  }
-
-  /* grille full mobile */
-  .admin .grid {
-    grid-template-columns: repeat(10, 1fr);
-    gap: 4px;
-  }
-
-  .admin .cell {
-    width: 100%;
-    aspect-ratio: 1;
-    font-size: 12px;
-    border-radius: 8px;
-  }
-
-  /* éviter hover mobile */
-  .admin .cell:hover {
-    transform: none;
-  }
-
-  /* status compact */
-  .status {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 768px) {
-  .admin .grid {
-    max-height: 60vh;
-    overflow-y: auto;
-    padding-bottom: 20px;
-  }
-}
+/* ===================================================== */
+/* PROGRESSION */
+/* ===================================================== */
 
 .progress {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   gap: 10px;
-
-  margin: 12px 0 20px;
+  margin: 12px 0;
 }
 
 .step {
@@ -136,66 +46,130 @@
   font-size: 12px;
   font-weight: 700;
 
-  cursor: pointer;
   transition: 0.2s ease;
 }
 
 .step.active {
   background: #ff9800;
-  color: black;
-
+  color: #111;
   transform: scale(1.05);
 }
 
 .step.done {
   background: #111;
   color: white;
-
-  opacity: 0.4;
+  opacity: 0.35;
   text-decoration: line-through;
 }
 
-.line {
-  width: 20px;
-  height: 2px;
-  background: #ccc;
+/* ===================================================== */
+/* GRID ADMIN (DESKTOP) */
+/* ===================================================== */
+
+.admin .grid {
+  display: grid;
+
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
 }
 
-@media (max-width: 768px) {
-  .actions {
-    position: sticky;
-    bottom: 0;
+.admin .cell {
+  aspect-ratio: 1;
 
-    background: #f4f7ff;
-    padding: 10px 0;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .btn.danger {
-    background: #ff3b30;
-  }
+  background: white;
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+
+  transition: transform 0.15s ease;
 }
 
+.admin .cell:hover {
+  transform: scale(1.05);
+}
+
+.admin .cell.used {
+  background: #d0d0d0;
+  color: #777;
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===================================================== */
+/* ACTIONS */
+/* ===================================================== */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.btn {
+  border: none;
+  background: #111;
+  color: white;
+
+  padding: 12px 16px;
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.btn.danger {
+  background: #ff3b30;
+}
+
+/* ===================================================== */
+/* STATUS */
+/* ===================================================== */
+
+.status {
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* ===================================================== */
+/* MOBILE - VERSION PROPRE SANS SCROLL HORIZONTAL */
+/* ===================================================== */
+
 @media (max-width: 768px) {
-  /* layout vertical propre */
+  /* layout vertical */
   .admin .admin-layout {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+
     padding: 12px;
+    gap: 12px;
   }
 
-  /* PROGRESSION FIXE EN HAUT */
+  /* header compact */
+  .admin-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  /* progression sticky */
   .progress {
     position: sticky;
     top: 0;
     z-index: 1000;
 
     background: #f4f7ff;
-    padding: 10px 0;
-
-    display: flex;
-    justify-content: center;
-    gap: 8px;
+    padding: 8px 0;
   }
 
   .step {
@@ -203,11 +177,15 @@
     padding: 6px 10px;
   }
 
-  /* ACTIONS PLUS VISIBLES */
+  /* ACTIONS sticky bas */
   .actions {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
+    position: sticky;
+    bottom: 0;
+
+    background: #f4f7ff;
+    padding: 10px;
+
+    z-index: 1000;
   }
 
   .btn {
@@ -216,7 +194,7 @@
     padding: 12px;
   }
 
-  /* GRILLE MOBILE UTILISABLE */
+  /* GRID MOBILE SANS SCROLL HORIZONTAL */
   .admin .grid {
     grid-template-columns: repeat(10, minmax(0, 1fr));
     gap: 4px;
@@ -225,14 +203,10 @@
   }
 
   .admin .cell {
-    aspect-ratio: 1;
-    width: 100%;
-
-    font-size: 11px;
-    border-radius: 8px;
+    font-size: 10px;
+    border-radius: 6px;
   }
 
-  /* éviter hover mobile inutile */
   .admin .cell:hover {
     transform: none;
   }
