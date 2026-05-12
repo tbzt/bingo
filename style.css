@@ -148,40 +148,21 @@ body {
 
 /* admin */
 
-.rules-panel {
-  max-width: 500px;
-  margin: 20px auto;
+.rule {
+  opacity: 0.4;
+  transition: 0.2s ease;
 }
 
-.rule-admin {
-  display: flex;
+.rule.current-rule {
+  opacity: 1;
 
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 14px 18px;
-
-  border-radius: 14px;
-
-  background: white;
-
-  margin-bottom: 10px;
-
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* règle active */
-
-.rule-admin.active {
   border: 3px solid #ff9800;
 
-  background: #fff3df;
+  transform: scale(1.03);
 }
 
-/* règle terminée */
-
-.rule-admin.completed {
-  opacity: 0.45;
+.rule.completed {
+  opacity: 0.25;
 
   text-decoration: line-through;
 }

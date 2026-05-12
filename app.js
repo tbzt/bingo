@@ -72,35 +72,32 @@ function render(history = [], current = null) {
 }
 
 function renderRules(rules = {}) {
-  const mapping = {
+  const step = rules.step || "quine";
+
+  const order = ["quine", "doubleQuine", "bingo"];
+
+  const elements = {
     quine: ruleQuine,
     doubleQuine: ruleDoubleQuine,
     bingo: ruleBingo,
   };
 
-  Object.entries(mapping).forEach(([key, el]) => {
+  order.forEach((rule, index) => {
+    const el = elements[rule];
     if (!el) return;
 
-    const active = rules[key];
+    el.classList.remove("current-rule", "completed");
 
-    el.classList.toggle("completed", active);
+    const stepIndex = order.indexOf(step);
+
+    if (index < stepIndex) {
+      el.classList.add("completed"); // déjà passé
+    }
+
+    if (rule === step) {
+      el.classList.add("current-rule"); // actif
+    }
   });
-
-  // règle active
-
-  if (!rules.quine) {
-    ruleQuine?.classList.add("current-rule");
-    ruleDoubleQuine?.classList.remove("current-rule");
-    ruleBingo?.classList.remove("current-rule");
-  } else if (!rules.doubleQuine) {
-    ruleQuine?.classList.remove("current-rule");
-    ruleDoubleQuine?.classList.add("current-rule");
-    ruleBingo?.classList.remove("current-rule");
-  } else {
-    ruleQuine?.classList.remove("current-rule");
-    ruleDoubleQuine?.classList.remove("current-rule");
-    ruleBingo?.classList.add("current-rule");
-  }
 }
 
 // ----------------------

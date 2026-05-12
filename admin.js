@@ -172,6 +172,19 @@ function renderRulesAdmin(rules = {}) {
   });
 }
 
+async function setStep(step) {
+  const snap = await get(stateRef);
+  const state = snap.val() || {};
+
+  state.rules = {
+    step: step,
+  };
+
+  await set(stateRef, state);
+}
+
+window.setStep = setStep;
+
 async function setRule(rule) {
   const order = ["quine", "doubleQuine", "bingo"];
 
