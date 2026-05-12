@@ -10,16 +10,28 @@
 }
 
 /* grid */
+
 .viewer .bingo-grid {
   display: grid;
-  grid-template-columns: repeat(10, 60px);
-  gap: 10px;
+
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 6px;
+
+  width: 100%;
+  max-width: 520px;
+
+  margin: 0 auto;
 }
 
 /* non tiré */
+
 .viewer .cell {
-  background: #dfe9ff;
-  color: #dfe9ff;
+  aspect-ratio: 1;
+  width: 100%;
+
+  font-size: 14px;
+
+  border-radius: 10px;
 }
 
 /* tiré */
@@ -35,13 +47,36 @@
   box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
 }
 
+.last3 {
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+/* titre aligné propre */
+.last-header {
+  font-size: 14px;
+  opacity: 0.7;
+
+  margin-bottom: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* conteneur des numéros */
 .last-numbers {
   display: flex;
-  gap: 16px;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 
-  padding: 8px 0;
+  gap: 10px;
 }
 
 .last-chip {
@@ -70,4 +105,17 @@
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 600px) {
+  .viewer .bingo-grid {
+    gap: 4px;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .viewer .cell {
+    font-size: 11px;
+    border-radius: 6px;
+  }
 }
