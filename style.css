@@ -5,7 +5,9 @@ body {
   color: #111;
 }
 
-/* ---------------- HEADER ---------------- */
+/* ===================================================== */
+/* ======================= HEADER ======================= */
+/* ===================================================== */
 
 .header {
   text-align: center;
@@ -16,11 +18,13 @@ body {
   margin: 0;
 }
 
-/* ---------------- CURRENT ---------------- */
+/* ===================================================== */
+/* ================= CURRENT NUMBER ==================== */
+/* ===================================================== */
 
 .current-box {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .label {
@@ -34,233 +38,8 @@ body {
   line-height: 1;
 }
 
-.last-numbers {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.last-chip {
-  width: 50px;
-  height: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 12px;
-
-  background: #ffb347;
-  color: #111;
-
-  font-weight: 800;
-}
-
-/* ---------------- GRID ---------------- */
-
-.bingo-grid,
-.grid {
-  display: grid;
-
-  grid-template-columns: repeat(10, 60px);
-
-  gap: 10px;
-
-  justify-content: center;
-
-  margin: auto;
-
-  padding: 20px;
-}
-
-/* ---------------- BASE CELL ---------------- */
-
-.cell {
-  width: 60px;
-  height: 60px;
-
-  border-radius: 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 22px;
-  font-weight: 700;
-
-  transition: 0.2s ease;
-
-  user-select: none;
-}
-
 /* ===================================================== */
-/* ===================== VIEWER ========================= */
-/* ===================================================== */
-
-/* NON TIRÉ = invisible */
-
-.viewer .cell {
-  background: #dfe9ff;
-  color: #dfe9ff;
-}
-
-/* NUMÉRO TIRÉ */
-
-.viewer .cell.active {
-  background: #ffb347;
-  color: #111;
-
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.08),
-    0 10px 20px rgba(255, 179, 71, 0.3);
-}
-
-/* DERNIER NUMÉRO */
-
-.viewer .cell.latest {
-  background: #ff9800;
-
-  transform: scale(1.08);
-
-  box-shadow:
-    0 0 0 4px rgba(255, 152, 0, 0.2),
-    0 12px 28px rgba(255, 152, 0, 0.45);
-}
-
-/* règle validée */
-
-.rule.completed {
-  opacity: 0.45;
-
-  text-decoration: line-through;
-}
-
-/* règle active */
-
-.rule.current-rule {
-  border: 3px solid #ff9800;
-
-  box-shadow: 0 0 24px rgba(255, 152, 0, 0.35);
-
-  transform: scale(1.03);
-}
-
-/* admin */
-
-.rule {
-  opacity: 0.4;
-  transition: 0.2s ease;
-}
-
-.rule.current-rule {
-  opacity: 1;
-
-  border: 3px solid #ff9800;
-
-  transform: scale(1.03);
-}
-
-.rule.completed {
-  opacity: 0.25;
-
-  text-decoration: line-through;
-}
-
-/* ===================================================== */
-/* ===================== LAYOUT ========================= */
-/* ===================================================== */
-
-.layout {
-  display: flex;
-
-  justify-content: center;
-  align-items: stretch;
-
-  gap: 40px;
-
-  max-width: 1400px;
-
-  margin: auto;
-
-  padding: 20px;
-
-  min-height: calc(100vh - 120px);
-}
-
-/* ---------------- BOARD ---------------- */
-
-.board {
-  flex: 1;
-}
-
-/* ---------------- SIDEBAR ---------------- */
-
-.sidebar {
-  width: 320px;
-
-  display: flex;
-  align-items: center;
-
-  min-height: 100%;
-}
-
-/* ---------------- RULES ---------------- */
-
-.rules-card {
-  background: white;
-
-  border-radius: 20px;
-
-  padding: 24px;
-
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-
-.rules-card h2 {
-  margin-top: 0;
-  margin-bottom: 24px;
-
-  font-size: 28px;
-}
-
-.rule {
-  padding: 16px;
-
-  border-radius: 14px;
-
-  background: #f7f8fc;
-
-  margin-bottom: 16px;
-}
-
-.rule-title {
-  font-size: 20px;
-  font-weight: 800;
-
-  margin-bottom: 8px;
-}
-
-.rule-text {
-  opacity: 0.75;
-
-  margin-bottom: 10px;
-}
-
-.rule-reward {
-  font-weight: 700;
-}
-
-/* jackpot */
-
-.rule.jackpot {
-  background: #fff3df;
-
-  border: 2px solid #ffb347;
-}
-
-/* ===================================================== */
-/* ==================== LAST 3 ========================== */
+/* ================= LAST NUMBERS ====================== */
 /* ===================================================== */
 
 .last3 {
@@ -272,7 +51,6 @@ body {
   display: flex;
   justify-content: center;
   gap: 10px;
-
   margin-top: 10px;
 }
 
@@ -292,173 +70,142 @@ body {
   font-size: 24px;
   font-weight: 800;
 
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.08),
-    0 10px 20px rgba(255, 179, 71, 0.25);
+  box-shadow: 0 10px 20px rgba(255, 179, 71, 0.25);
 }
 
 /* ===================================================== */
-/* ==================== MOBILE ========================== */
+/* ==================== GRID BASE ====================== */
 /* ===================================================== */
 
-@media (max-width: 1100px) {
-  .layout {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .sidebar {
-    width: 100%;
-    max-width: 700px;
-  }
+.bingo-grid,
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 60px);
+  gap: 10px;
+  justify-content: center;
+  margin: auto;
+  padding: 20px;
 }
 
 /* ===================================================== */
-/* ================= FULLSCREEN BTN ==================== */
+/* ======================= CELL ======================== */
 /* ===================================================== */
 
-.fullscreen-btn {
-  position: absolute;
+.cell {
+  width: 60px;
+  height: 60px;
 
-  top: 20px;
-  right: 20px;
-
-  border: none;
-
-  background: #111;
-  color: white;
-
-  padding: 12px 18px;
-
-  border-radius: 12px;
-
-  cursor: pointer;
-
-  font-size: 14px;
-
-  z-index: 1000;
-}
-
-/* ===================================================== */
-/* ================= DRAW OVERLAY ====================== */
-/* ===================================================== */
-
-.draw-overlay {
-  position: fixed;
-
-  inset: 0;
-
-  background: rgba(0, 0, 0, 0.6);
+  border-radius: 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  z-index: 9999;
+  font-size: 22px;
+  font-weight: 700;
 
-  opacity: 0;
+  user-select: none;
 
-  transition: opacity 0.35s ease;
-
-  pointer-events: none;
+  transition: 0.2s ease;
 }
 
-.draw-overlay.show {
-  opacity: 1;
+/* ===================================================== */
+/* ===================== VIEWER MODE =================== */
+/* ===================================================== */
+
+/* non tiré */
+.viewer .cell {
+  background: #dfe9ff;
+  color: #dfe9ff;
 }
 
-.draw-overlay.hidden {
-  display: none;
-}
-
-.draw-ball {
-  width: 260px;
-  height: 260px;
-
-  border-radius: 50%;
-
-  background: #ff9800;
+/* tiré */
+.viewer .cell.active {
+  background: #ffb347;
   color: #111;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 120px;
-  font-weight: 900;
-
-  animation: popBall 0.45s ease;
-
-  box-shadow:
-    0 0 0 12px rgba(255, 152, 0, 0.15),
-    0 0 60px rgba(255, 152, 0, 0.55),
-    0 20px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 20px rgba(255, 179, 71, 0.3);
 }
 
-@keyframes popBall {
-}
-
-/* ===================================================== */
-/* ================= LAST NUMBER GLOW ================== */
-/* ===================================================== */
-
+/* dernier */
 .viewer .cell.latest {
   background: #ff9800;
-
   color: black;
 
-  transform: scale(1.15);
+  transform: scale(1.12);
 
   animation: pulseGlow 1.2s infinite;
 
   box-shadow:
     0 0 0 4px rgba(255, 152, 0, 0.2),
-    0 0 24px rgba(255, 152, 0, 0.9),
-    0 0 48px rgba(255, 152, 0, 0.6),
-    0 12px 28px rgba(255, 152, 0, 0.45);
+    0 0 30px rgba(255, 152, 0, 0.8);
 }
 
 @keyframes pulseGlow {
   0% {
     transform: scale(1.08);
   }
-
   50% {
-    transform: scale(1.18);
+    transform: scale(1.15);
   }
-
   100% {
     transform: scale(1.08);
   }
 }
 
 /* ===================================================== */
-/* ================= TV MODE =========================== */
+/* ===================== RULES ========================= */
 /* ===================================================== */
 
-:fullscreen body {
-  background: #eef3ff;
+.rule {
+  padding: 16px;
+  border-radius: 14px;
+
+  background: #f7f8fc;
+
+  margin-bottom: 12px;
+
+  opacity: 0.4;
+
+  transition: 0.2s ease;
 }
 
-:fullscreen .layout {
-  max-width: 1800px;
+/* actif */
+.rule.current-rule {
+  opacity: 1;
+
+  border: 3px solid #ff9800;
+
+  box-shadow: 0 0 24px rgba(255, 152, 0, 0.25);
+
+  transform: scale(1.03);
 }
 
-:fullscreen .bingo-grid {
-  transform: scale(1.1);
-  transform-origin: top center;
+/* terminé */
+.rule.completed {
+  opacity: 0.25;
+  text-decoration: line-through;
 }
 
-:fullscreen .sidebar {
-  transform: scale(1.08);
-  transform-origin: top right;
+/* jackpot */
+.rule.jackpot {
+  background: #fff3df;
+  border: 2px solid #ffb347;
 }
 
 /* ===================================================== */
-/* ====================== ADMIN ========================= */
+/* ====================== LAYOUT ======================= */
 /* ===================================================== */
 
-/* NUMÉROS DISPONIBLES */
+.admin-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+/* ===================================================== */
+/* ====================== ADMIN ======================== */
+/* ===================================================== */
 
 .admin .cell {
   background: white;
@@ -469,43 +216,23 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
-/* hover */
-
 .admin .cell:hover {
   transform: scale(1.05);
 }
 
-/* NUMÉRO DÉJÀ TIRÉ */
-
 .admin .cell.used {
   background: #d0d0d0;
   color: #777;
-
   opacity: 0.4;
-
   cursor: not-allowed;
-
-  box-shadow: none;
 }
 
-/* DERNIER NUMÉRO */
-
-.admin .cell.latest {
-  background: #ff9800;
-  color: black;
-
-  transform: scale(1.08);
-
-  box-shadow:
-    0 0 0 4px rgba(255, 152, 0, 0.2),
-    0 12px 28px rgba(255, 152, 0, 0.45);
-}
-
-/* ---------------- BUTTONS ---------------- */
+/* ===================================================== */
+/* ===================== BUTTONS ======================= */
+/* ===================================================== */
 
 button {
   border: none;
-
   background: #111;
   color: white;
 
@@ -518,7 +245,13 @@ button {
   font-size: 14px;
 }
 
-/* ---------------- STATUS ---------------- */
+button.danger {
+  background: #ff3b30;
+}
+
+/* ===================================================== */
+/* ====================== STATUS ======================== */
+/* ===================================================== */
 
 .status {
   text-align: center;
@@ -526,13 +259,74 @@ button {
   margin-top: 10px;
 }
 
-.actions {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+/* ===================================================== */
+/* ====================== FULLSCREEN ==================== */
+/* ===================================================== */
+
+.fullscreen-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  background: #111;
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  z-index: 1000;
 }
 
-/* ---------------- MOBILE ---------------- */
+/* ===================================================== */
+/* ===================== OVERLAY ======================== */
+/* ===================================================== */
+
+.draw-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: 0.3s ease;
+}
+
+.draw-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.draw-overlay.hidden {
+  display: none;
+}
+
+.draw-ball {
+  width: 240px;
+  height: 240px;
+
+  border-radius: 50%;
+
+  background: #ff9800;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 100px;
+  font-weight: 900;
+
+  box-shadow: 0 0 60px rgba(255, 152, 0, 0.6);
+}
+
+/* ===================================================== */
+/* ===================== MOBILE ======================== */
+/* ===================================================== */
 
 @media (max-width: 700px) {
   .bingo-grid,
@@ -544,13 +338,15 @@ button {
   .cell {
     width: 32px;
     height: 32px;
-
-    border-radius: 8px;
-
     font-size: 12px;
+    border-radius: 8px;
   }
 
   .big-number {
     font-size: 64px;
+  }
+
+  .admin-layout {
+    grid-template-columns: 1fr;
   }
 }

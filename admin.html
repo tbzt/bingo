@@ -11,30 +11,72 @@
 
 <body class="admin">
 
-    <div class="topbar">
-        <h1>🎱 Bingo Guru</h1>
+    <header class="admin-header">
+
+        <div class="brand">
+            🎱 <span>Bingo Control Room</span>
+        </div>
+
         <div id="status" class="status">Prêt</div>
-    </div>
 
-    <div class="actions">
-        <button id="resetBtn" class="btn danger">REINITIALISATION</button>
-    </div>
+    </header>
 
-    <div class="rules-panel">
+    <main class="admin-layout">
 
-        <button onclick="setStep('quine')">QUINE</button>
+        <!-- LEFT PANEL -->
+        <section class="control-panel">
 
-        <button onclick="setStep('doubleQuine')">DOUBLE QUINE</button>
+            <div class="card">
 
-        <button onclick="setStep('bingo')">BINGO</button>
+                <h2>🎯 Partie</h2>
 
-    </div>
+                <button id="resetBtn" class="btn danger big">
+                    🔄 RESET PARTIE
+                </button>
 
-    <div class="panel">
-        <div id="adminGrid" class="grid"></div>
-    </div>
+            </div>
+
+            <div class="card">
+
+                <h2>📊 Progression</h2>
+
+                <div class="rules-panel">
+
+                    <button class="btn step" onclick="setStep('quine')">
+                        QUINE
+                    </button>
+
+                    <button class="btn step" onclick="setStep('doubleQuine')">
+                        DOUBLE QUINE
+                    </button>
+
+                    <button class="btn step" onclick="setStep('bingo')">
+                        BINGO
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RIGHT GRID -->
+        <section class="grid-panel">
+
+            <div class="card">
+
+                <h2>🎱 Numéros</h2>
+
+                <div id="adminGrid" class="grid"></div>
+
+            </div>
+
+        </section>
+
+    </main>
 
     <script type="module" src="admin.js"></script>
+
 </body>
 
 </html>

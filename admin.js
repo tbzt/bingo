@@ -35,6 +35,16 @@ function setStatus(msg) {
   statusEl.textContent = msg;
 }
 
+document.querySelectorAll(".btn.step").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".btn.step")
+      .forEach((b) => b.classList.remove("active"));
+
+    btn.classList.add("active");
+  });
+});
+
 // ----------------------
 // RENDER
 // ----------------------
