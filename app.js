@@ -134,6 +134,8 @@ onValue(stateRef, (snap) => {
 });
 
 function animateDraw(number) {
+  if (number === 0) return;
+
   drawBallEl.textContent = number;
 
   overlayEl.classList.remove("hidden");
