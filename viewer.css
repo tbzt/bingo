@@ -369,3 +369,33 @@ body {
     font-size: 14px;
   }
 }
+
+/* ===================================================== */
+/* FIX PRIORITÉ OVERLAY (anti cellule au-dessus animation) */
+/* ===================================================== */
+
+.draw-overlay {
+  z-index: 99999; /* garantit qu'il est AU-DESSUS de tout */
+}
+
+/* sécurité stacking context grille */
+.bingo-grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* cellules restent sous overlay même avec transform */
+.cell {
+  position: relative;
+  z-index: 1;
+}
+
+/* dernier tiré : reste dans la grille, PAS au-dessus overlay */
+.cell.latest {
+  z-index: 2; /* OK localement */
+}
+
+/* overlay contient tout */
+.draw-overlay.show {
+  z-index: 99999;
+}
