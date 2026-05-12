@@ -297,6 +297,34 @@ body {
     0 30px 80px rgba(0, 0, 0, 0.4);
 }
 
+.draw-ball.start-mode {
+  background: linear-gradient(135deg, #111, #333);
+  color: #fff;
+
+  font-size: 64px;
+
+  box-shadow:
+    0 0 0 10px rgba(255, 255, 255, 0.08),
+    0 0 80px rgba(0, 0, 0, 0.6);
+
+  animation: startPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes startPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
 /* ===================================================== */
 /* FULLSCREEN TV MODE */
 /* ===================================================== */

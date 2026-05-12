@@ -133,21 +133,30 @@ onValue(stateRef, (snap) => {
   renderRules(state.rules || {});
 });
 
+
 function animateDraw(number) {
-  if (number === 0) return;
+  const isStart = number === 0;
 
-  drawBallEl.textContent = number;
+  // texte
+  drawBallEl.textContent = isStart ? "🎱 Début de partie" : number;
 
+  // style visuel différent
+  drawBallEl.classList.toggle("start-mode", isStart);
+
+  // animation overlay
   overlayEl.classList.remove("hidden");
   overlayEl.classList.add("show");
+
+  const duration = isStart ? 2200 : 1200;
 
   setTimeout(() => {
     overlayEl.classList.remove("show");
 
     setTimeout(() => {
       overlayEl.classList.add("hidden");
+      drawBallEl.classList.remove("start-mode");
     }, 400);
-  }, 600);
+  }, duration);
 }
 
 fullscreenBtn.addEventListener("click", async () => {
