@@ -69,8 +69,12 @@
 .admin .grid {
   display: grid;
 
-  grid-template-columns: repeat(10, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+
+  /* gap adaptatif (clé du problème) */
+  gap: clamp(2px, 0.6vw, 8px);
+
+  width: 100%;
 }
 
 .admin .cell {
@@ -80,17 +84,30 @@
   align-items: center;
   justify-content: center;
 
-  background: white;
-  border-radius: 10px;
-
-  font-size: 14px;
+  font-size: clamp(9px, 1.2vw, 14px);
   font-weight: 700;
 
-  cursor: pointer;
+  border-radius: clamp(4px, 0.8vw, 10px);
+
+  background: white;
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 
-  transition: transform 0.15s ease;
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+@media (max-width: 768px) {
+  .admin .grid {
+    gap: 3px;
+  }
+
+  .admin .cell {
+    font-size: 9px;
+  }
 }
 
 .admin .cell:hover {
