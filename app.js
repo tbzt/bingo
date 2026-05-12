@@ -145,7 +145,7 @@ function animateDraw(number) {
     setTimeout(() => {
       overlayEl.classList.add("hidden");
     }, 400);
-  }, 1800);
+  }, 600);
 }
 
 fullscreenBtn.addEventListener("click", async () => {
