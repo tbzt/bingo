@@ -1,0 +1,117 @@
+/* layout admin */
+.admin .admin-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+/* grid admin */
+.admin .grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+}
+
+/* cellule admin */
+.admin .cell {
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.admin .cell:hover {
+  transform: scale(1.05);
+}
+
+/* utilisée */
+.admin .cell.used {
+  background: #d0d0d0;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* header admin */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  /* layout passe en colonne */
+  .admin .admin-layout {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* header compact */
+  .admin-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  /* panneau contrôle devient sticky */
+  .admin .control-panel {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: #f4f7ff;
+    padding-bottom: 10px;
+  }
+
+  /* boutons règles en ligne */
+  .rules-panel {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .rules-panel .btn {
+    flex: 1;
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  /* reset plus visible */
+  .btn.big {
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  /* grille full mobile */
+  .admin .grid {
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+  }
+
+  .admin .cell {
+    width: 100%;
+    aspect-ratio: 1;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  /* éviter hover mobile */
+  .admin .cell:hover {
+    transform: none;
+  }
+
+  /* status compact */
+  .status {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin .grid {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-bottom: 20px;
+  }
+}

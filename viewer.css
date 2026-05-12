@@ -1,0 +1,49 @@
+/* layout global */
+.viewer .layout {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* grid */
+.viewer .bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 60px);
+  gap: 10px;
+}
+
+/* non tiré */
+.viewer .cell {
+  background: #dfe9ff;
+  color: #dfe9ff;
+}
+
+/* tiré */
+.viewer .cell.active {
+  background: #ffb347;
+  color: #111;
+}
+
+/* dernier */
+.viewer .cell.latest {
+  background: #ff9800;
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
+}
+
+/* sidebar */
+.viewer .sidebar {
+  width: 320px;
+}
+
+/* rules card */
+.viewer .rules-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}

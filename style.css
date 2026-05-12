@@ -227,73 +227,6 @@ body {
   cursor: not-allowed;
 }
 
-.progress {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-
-  margin: 20px 0;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  cursor: pointer;
-
-  min-width: 90px;
-}
-
-.dot {
-  width: 18px;
-  height: 18px;
-
-  border-radius: 50%;
-
-  background: #ccc;
-
-  margin-bottom: 6px;
-
-  transition: 0.2s ease;
-}
-
-.step.active .dot {
-  background: #ff9800;
-
-  transform: scale(1.2);
-
-  box-shadow: 0 0 12px rgba(255, 152, 0, 0.6);
-}
-
-.step.done .dot {
-  background: #111;
-}
-
-.step .label {
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0.6;
-}
-
-.step.active .label {
-  opacity: 1;
-}
-
-.step.done .label {
-  opacity: 0.3;
-  text-decoration: line-through;
-}
-
-.line {
-  width: 40px;
-  height: 2px;
-
-  background: #ddd;
-}
-
 /* ===================================================== */
 /* ===================== BUTTONS ======================= */
 /* ===================================================== */
@@ -416,4 +349,70 @@ button.danger {
   .admin-layout {
     grid-template-columns: 1fr;
   }
+}
+
+.layout {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+  min-height: calc(100vh - 120px);
+}
+
+.board {
+  flex: 1;
+}
+
+/* sidebar règles */
+.sidebar {
+  width: 320px;
+  display: flex;
+  align-items: center;
+}
+
+/* carte règles */
+.rules-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* titre règles */
+.rules-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.rule {
+  padding: 16px;
+  border-radius: 14px;
+  background: #f7f8fc;
+  margin-bottom: 12px;
+  opacity: 0.4;
+  transition: 0.2s ease;
+}
+
+/* règle active */
+.rule.current-rule {
+  opacity: 1;
+  border: 3px solid #ff9800;
+  box-shadow: 0 0 24px rgba(255, 152, 0, 0.25);
+  transform: scale(1.03);
+}
+
+/* règle terminée */
+.rule.completed {
+  opacity: 0.25;
+  text-decoration: line-through;
+}
+
+/* jackpot */
+.rule.jackpot {
+  background: #fff3df;
+  border: 2px solid #ffb347;
 }
