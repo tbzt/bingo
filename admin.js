@@ -118,12 +118,39 @@ async function resetGame() {
   await set(stateRef, {
     current: 0,
     history: [],
+    rules: {
+      keen: false,
+      doublekeen: false,
+      bingo: false,
+    },
   });
 
   resetArmed = false;
 
   setStatus("✔ On démarque !");
 }
+
+async function toggleRule(ruleName) {
+  const snap = await get(stateRef);
+
+  const state = snap.exists()
+    ? snap.val()
+    : {
+        current: 0,
+        history: [],
+        rules: {},
+      };
+
+  state.rules = state.rules || {};
+
+  state.rules[ruleName] = !state.rules[ruleName];
+
+  await set(stateRef, state);
+
+  setStatus(`✔ Règle mise à jour : ${ruleName}`);
+}
+
+window.toggleRule = toggleRule;
 
 // ----------------------
 // LIVE SYNC
