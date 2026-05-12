@@ -31,8 +31,8 @@ const overlayEl = document.getElementById("drawOverlay");
 const drawBallEl = document.getElementById("drawBall");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-const ruleQuine = document.getElementById("rule-Quine");
-const ruleDoubleQuine = document.getElementById("rule-doubleQuine");
+const ruleQuine = document.getElementById("rule-quine");
+const ruleDoubleQuine = document.getElementById("rule-doublequine");
 const ruleBingo = document.getElementById("rule-bingo");
 
 let previousCurrent = null;
@@ -89,17 +89,17 @@ function renderRules(rules = {}) {
   // règle active
 
   if (!rules.quine) {
-    ruleQuine.classList.add("current-rule");
-    ruleDoubleQuine.classList.remove("current-rule");
-    ruleBingo.classList.remove("current-rule");
+    ruleQuine?.classList.add("current-rule");
+    ruleDoubleQuine?.classList.remove("current-rule");
+    ruleBingo?.classList.remove("current-rule");
   } else if (!rules.doubleQuine) {
-    ruleQuine.classList.remove("current-rule");
-    ruleDoubleQuine.classList.add("current-rule");
-    ruleBingo.classList.remove("current-rule");
+    ruleQuine?.classList.remove("current-rule");
+    ruleDoubleQuine?.classList.add("current-rule");
+    ruleBingo?.classList.remove("current-rule");
   } else {
-    ruleQuine.classList.remove("current-rule");
-    ruleDoubleQuine.classList.remove("current-rule");
-    ruleBingo.classList.add("current-rule");
+    ruleQuine?.classList.remove("current-rule");
+    ruleDoubleQuine?.classList.remove("current-rule");
+    ruleBingo?.classList.add("current-rule");
   }
 }
 
