@@ -20,19 +20,28 @@
         <button id="resetBtn" class="btn danger">REINITIALISATION</button>
     </div>
 
-    <div class="rules-admin">
+    <div class="rules-panel">
 
-        <button onclick="toggleRule('quine')">
-            QUINE
-        </button>
+        <div class="rule-admin" data-rule="quine">
+            <span>QUINE</span>
+            <button onclick="setRule('quine')">
+                Activer
+            </button>
+        </div>
 
-        <button onclick="toggleRule('doubleQuine')">
-            DOUBLE QUINE
-        </button>
+        <div class="rule-admin" data-rule="doubleQuine">
+            <span>DOUBLE QUINE</span>
+            <button onclick="setRule('doubleQuine')">
+                Activer
+            </button>
+        </div>
 
-        <button onclick="toggleRule('bingo')">
-            BINGO
-        </button>
+        <div class="rule-admin" data-rule="bingo">
+            <span>BINGO</span>
+            <button onclick="setRule('bingo')">
+                Activer
+            </button>
+        </div>
 
     </div>
 

@@ -148,14 +148,42 @@ body {
 
 /* admin */
 
-.rules-admin {
+.rules-panel {
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.rule-admin {
   display: flex;
-  justify-content: center;
-  gap: 10px;
 
-  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
 
-  flex-wrap: wrap;
+  padding: 14px 18px;
+
+  border-radius: 14px;
+
+  background: white;
+
+  margin-bottom: 10px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* règle active */
+
+.rule-admin.active {
+  border: 3px solid #ff9800;
+
+  background: #fff3df;
+}
+
+/* règle terminée */
+
+.rule-admin.completed {
+  opacity: 0.45;
+
+  text-decoration: line-through;
 }
 
 /* ===================================================== */

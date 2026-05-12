@@ -152,6 +152,45 @@ async function toggleRule(ruleName) {
 
 window.toggleRule = toggleRule;
 
+function renderRulesAdmin(rules = {}) {
+  const current = rules.current;
+  const completed = rules.completed || [];
+
+  document.querySelectorAll(".rule-admin").forEach((el) => {
+    const rule = el.dataset.rule;
+
+    el.classList.remove("active");
+    el.classList.remove("completed");
+
+    if (rule === current) {
+      el.classList.add("active");
+    }
+
+    if (completed.includes(rule)) {
+      el.classList.add("completed");
+    }
+  });
+}
+
+async function setRule(rule) {
+  const order = ["quine", "doubleQuine", "bingo"];
+
+  const completed = order.filter((r) => r !== rule);
+
+  const snap = await get(stateRef);
+
+  const state = snap.val() || {};
+
+  state.rules = {
+    current: rule,
+    completed,
+  };
+
+  await set(stateRef, state);
+}
+
+window.setRule = setRule;
+
 // ----------------------
 // LIVE SYNC
 // ----------------------
@@ -162,6 +201,7 @@ onValue(stateRef, (snap) => {
   if (!state) return;
 
   render(state);
+  renderRulesAdmin(state.rules || {});
 });
 
 // ----------------------
