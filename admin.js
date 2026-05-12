@@ -44,7 +44,7 @@ function render(state) {
 
   const used = new Set(state.history || []);
 
-  for (let i = 1; i <= 99; i++) {
+  for (let i = 1; i <= 90; i++) {
     const cell = document.createElement("div");
 
     cell.className = "cell";

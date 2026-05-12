@@ -44,7 +44,7 @@ let previousCurrent = null;
 function buildGrid() {
   gridEl.innerHTML = "";
 
-  for (let i = 1; i <= 99; i++) {
+  for (let i = 1; i <= 90; i++) {
     const cell = document.createElement("div");
     cell.className = "cell";
     cell.textContent = i;
@@ -133,6 +133,7 @@ onValue(stateRef, (snap) => {
   });
 
   render(history, state.current);
+  renderRules(state.rules || {});
 });
 
 function animateDraw(number) {
@@ -157,5 +158,3 @@ fullscreenBtn.addEventListener("click", async () => {
     await document.exitFullscreen();
   }
 });
-
-renderRules(state.rules || {});
