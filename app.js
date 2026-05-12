@@ -74,7 +74,7 @@ function render(history = [], current = null) {
 function renderRules(rules = {}) {
   const mapping = {
     quine: ruleQuine,
-    doubleQuine: ruleDouble,
+    doubleQuine: ruleDoubleQuine,
     bingo: ruleBingo,
   };
 
@@ -86,19 +86,19 @@ function renderRules(rules = {}) {
     el.classList.toggle("completed", active);
   });
 
-  // jackpot = prochaine règle
+  // règle active
 
   if (!rules.quine) {
     ruleQuine.classList.add("current-rule");
-    ruleDouble.classList.remove("current-rule");
+    ruleDoubleQuine.classList.remove("current-rule");
     ruleBingo.classList.remove("current-rule");
   } else if (!rules.doubleQuine) {
     ruleQuine.classList.remove("current-rule");
-    ruleDouble.classList.add("current-rule");
+    ruleDoubleQuine.classList.add("current-rule");
     ruleBingo.classList.remove("current-rule");
   } else {
     ruleQuine.classList.remove("current-rule");
-    ruleDouble.classList.remove("current-rule");
+    ruleDoubleQuine.classList.remove("current-rule");
     ruleBingo.classList.add("current-rule");
   }
 }
