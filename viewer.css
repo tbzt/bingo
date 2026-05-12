@@ -187,6 +187,12 @@ body {
   width: 320px;
 }
 
+.viewer .sidebar {
+  display: flex;
+  justify-content: center; /* centre horizontal */
+  align-items: flex-start; /* reste en haut */
+}
+
 .rules-card {
   background: white;
   border-radius: 18px;
