@@ -35,6 +35,30 @@
   box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
 }
 
+.last-numbers {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+
+  padding: 8px 0;
+}
+
+.last-chip {
+  border-radius: 999px;
+  padding: 8px 14px;
+  width: auto;
+  height: auto;
+
+  font-size: 16px;
+}
+
+.last-chip:first-child {
+  box-shadow:
+    0 0 0 4px rgba(255, 152, 0, 0.25),
+    0 0 20px rgba(255, 152, 0, 0.6);
+}
+
 /* sidebar */
 .viewer .sidebar {
   width: 320px;
