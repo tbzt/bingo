@@ -9,10 +9,10 @@
 /* ===================================================== */
 
 .admin {
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
   font-family: "DM Sans", Arial, sans-serif;
 
-  /* Fond pointillé identique au viewer */
   background: #f0f4ff;
   background-image: radial-gradient(
     circle,
@@ -20,7 +20,6 @@
     transparent 1px
   );
   background-size: 22px 22px;
-  min-height: 100vh;
 }
 
 /* ===================================================== */
@@ -61,9 +60,35 @@
 .admin .admin-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
+  grid-template-rows: 1fr;
   gap: 24px;
   padding: 24px;
   min-width: 0;
+  height: calc(100vh - 53px); /* 100vh - header */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Les deux colonnes s'étirent sur toute la hauteur */
+.control-panel,
+.grid-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* La card de la grille prend toute la hauteur disponible */
+.grid-panel .card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.grid-panel .card #adminGrid {
+  flex: 1;
+  align-content: start;
 }
 
 /* ===================================================== */
@@ -131,8 +156,9 @@
 /* Ligne de fond entre les steps */
 .line {
   flex: 1;
-  height: 3px;
+  height: 5px;
   background: #e0e0e0;
+  border-radius: 99px;
   position: relative;
   overflow: hidden;
 }
@@ -142,10 +168,11 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: #ff9800;
+  background: linear-gradient(90deg, #ff9800, #ffb74d);
+  border-radius: 99px;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Quand le step suivant est done, la ligne entre se remplit */
@@ -159,23 +186,25 @@
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 12px;
-  background: #eee;
-  color: #999;
+  background: #e4e4e4;
+  color: #888;
   font-family: "DM Sans", sans-serif;
   font-size: 11px;
   font-weight: 700;
   transition:
     background 0.3s ease,
     color 0.3s ease,
-    transform 0.3s ease;
-  min-width: 64px;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  min-width: 70px;
   text-align: center;
-  min-height: 48px;
+  min-height: 52px;
   justify-content: center;
   position: relative;
   z-index: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .step .dot {
@@ -211,6 +240,7 @@
 .step.active {
   background: #ff9800;
   color: #111;
+  box-shadow: 0 4px 14px rgba(255, 152, 0, 0.4);
   animation: stepActivate 0.4s ease forwards;
 }
 
@@ -309,9 +339,16 @@
 /* ===================================================== */
 
 @media (max-width: 768px) {
+  .admin {
+    overflow: auto;
+    height: auto;
+  }
+
   .admin .admin-layout {
     display: flex;
     flex-direction: column;
+    height: auto;
+    overflow: visible;
     padding: 10px;
     gap: 10px;
   }
