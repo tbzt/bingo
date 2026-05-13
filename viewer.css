@@ -239,6 +239,7 @@ body {
   border-radius: 18px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  text-align: center;
 }
 
 .rules-card h2 {
@@ -278,6 +279,7 @@ body {
   font-weight: 700;
   margin-top: 6px;
   color: #ff9800;
+  justify-content: center;
 }
 
 /* Règle active */
