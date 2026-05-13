@@ -1,23 +1,9 @@
 /* ===================================================== */
-/* SAFE BASE (anti overflow global) */
+/* RESET & BASE */
 /* ===================================================== */
 
 .admin {
   overflow-x: hidden;
-}
-
-/* ===================================================== */
-/* LAYOUT DESKTOP (inchangé visuellement) */
-/* ===================================================== */
-
-.admin .admin-layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 24px;
-
-  padding: 24px;
-
-  min-width: 0; /* FIX important overflow flex/grid */
 }
 
 /* ===================================================== */
@@ -28,104 +14,207 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 16px 20px;
+  padding: 14px 20px;
   background: white;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.status {
+  font-size: 13px;
+  opacity: 0.6;
 }
 
 /* ===================================================== */
-/* PROGRESSION (inchangé UX) */
+/* LAYOUT DESKTOP */
+/* ===================================================== */
+
+.admin .admin-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  padding: 24px;
+  min-width: 0;
+}
+
+/* ===================================================== */
+/* CARDS */
+/* ===================================================== */
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card h2 {
+  margin: 0 0 14px 0;
+  font-size: 15px;
+}
+
+/* ===================================================== */
+/* BOUTONS */
+/* ===================================================== */
+
+.btn {
+  border: none;
+  background: #111;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: 0.15s ease;
+  min-height: 52px;
+  width: 100%;
+}
+
+.btn.danger {
+  background: #ff3b30;
+}
+
+.btn:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* ===================================================== */
+/* PROGRESSION */
 /* ===================================================== */
 
 .progress {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+}
 
-  gap: 10px;
-  margin: 12px 0;
+.line {
+  flex: 1;
+  height: 2px;
+  background: #e0e0e0;
+  border-radius: 2px;
 }
 
 .step {
-  padding: 8px 14px;
-  border-radius: 999px;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 12px;
   background: #eee;
   color: #555;
-
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-
   transition: 0.2s ease;
+  min-width: 60px;
+  text-align: center;
+  /* touch target correct */
+  min-height: 48px;
+  justify-content: center;
+}
+
+.step .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+.step .label {
+  font-size: 10px;
+  letter-spacing: 0.3px;
 }
 
 .step.active {
   background: #ff9800;
   color: #111;
-  transform: scale(1.05);
+}
+
+.step.active .dot {
+  opacity: 1;
 }
 
 .step.done {
   background: #111;
   color: white;
-  opacity: 0.35;
-  text-decoration: line-through;
+  opacity: 0.3;
 }
 
 /* ===================================================== */
-/* GRID ADMIN (FIX STABILITÉ SANS CHANGER DESIGN) */
+/* GRILLE ADMIN — DESKTOP */
 /* ===================================================== */
 
 .admin .grid {
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
-
-  gap: clamp(1px, 0.4vw, 3px); /* FIX clé anti overflow */
-
+  gap: clamp(3px, 0.5vw, 6px);
   width: 100%;
   max-width: 100%;
-
   box-sizing: border-box;
 }
 
 /* ===================================================== */
-/* CELLULES (même look, juste plus robuste) */
+/* CELLULES — DESKTOP */
 /* ===================================================== */
 
 .admin .cell {
+  /* FIX : pas de width/height fixe, on laisse la grille gérer */
+  width: auto;
+  height: auto;
   aspect-ratio: 1;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: clamp(12px, 1.4vw, 16px);
+  /* Taille de police dynamique selon la largeur de cellule */
+  font-size: clamp(11px, 1.3vw, 17px);
   font-weight: 900;
 
-  border-radius: 6px;
-
+  border-radius: 8px;
   background: white;
-
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   user-select: none;
-
-  transition: transform 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    background 0.15s ease;
+  box-sizing: border-box;
+  line-height: 1;
 }
 
 .admin .cell:hover {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  background: #f0f4ff;
 }
 
 .admin .cell.used {
-  background: #d0d0d0;
-  color: #777;
-
-  opacity: 0.4;
+  background: #e0e0e0;
+  color: #aaa;
+  opacity: 0.45;
   cursor: not-allowed;
-
   box-shadow: none;
+}
+
+.admin .cell.latest {
+  background: #ff9800;
+  color: #111;
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.3);
 }
 
 /* ===================================================== */
@@ -136,117 +225,51 @@
   display: flex;
   justify-content: center;
   gap: 10px;
-
   margin: 16px 0;
 }
 
-.btn {
-  border: none;
-  background: #111;
-  color: white;
-
-  padding: 12px 16px;
-  border-radius: 10px;
-
-  cursor: pointer;
-}
-
-.btn.danger {
-  background: #ff3b30;
-}
-
 /* ===================================================== */
-/* STATUS */
-/* ===================================================== */
-
-.status {
-  text-align: center;
-  font-size: 13px;
-  opacity: 0.7;
-}
-
-/* ===================================================== */
-/* MOBILE SAFE (0 BREAK UI) */
+/* MOBILE — PIXEL 8 (393px) */
 /* ===================================================== */
 
 @media (max-width: 768px) {
+  /* Layout colonne */
   .admin .admin-layout {
     display: flex;
     flex-direction: column;
-
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .admin-header {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .progress {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    background: #f4f7ff;
-    padding: 8px 0;
-  }
-
-  .step {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-
-  .actions {
-    position: sticky;
-    bottom: 0;
-
-    background: #f4f7ff;
     padding: 10px;
-
-    z-index: 1000;
+    gap: 10px;
   }
 
-  .btn {
-    flex: 1;
-    font-size: 12px;
+  /* Header compact */
+  .admin-header {
+    padding: 10px 14px;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  /* Cards sans marge basse */
+  .card {
+    margin-bottom: 0;
     padding: 12px;
+    border-radius: 14px;
   }
 
-  .admin .grid {
-    gap: 3px; /* stable, pas agressif */
-  }
-
-  .admin .cell {
-    font-size: clamp(10px, 2.8vw, 13px);
-    border-radius: 5px;
-  }
-
-  .admin .cell:hover {
-    transform: none;
-  }
-}
-
-/* ===================================================== */
-/* SMALL MOBILE (PIXEL 8 SAFE MODE) */
-/* ===================================================== */
-
-@media (max-width: 420px) {
-  .admin .admin-layout {
-    padding: 5px;
-    gap: 8px;
-  }
-
-  .admin .grid {
-    gap: 1px; /* densité max sans overflow */
-  }
-
-  .admin .cell {
+  .card h2 {
     font-size: 13px;
-    border-radius: 2px;
+    margin-bottom: 10px;
+  }
 
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  /* Progression sticky en haut */
+  .rules-panel {
+    position: sticky;
+    top: 53px; /* sous le header sticky */
+    z-index: 90;
+    background: white;
+    border-radius: 0 0 14px 14px;
+    padding-bottom: 4px;
   }
 
   .progress {
@@ -255,15 +278,116 @@
 
   .step {
     font-size: 10px;
-    padding: 5px 8px;
+    padding: 8px 10px;
+    min-width: 52px;
+    min-height: 44px;
+    border-radius: 10px;
+  }
+
+  .step .label {
+    font-size: 9px;
+  }
+
+  /* ------------------------------------------------- */
+  /* GRILLE : priorité absolue, prend toute la largeur */
+  /* ------------------------------------------------- */
+
+  .admin .grid {
+    /* 10 colonnes dans ~373px (393 - 2×10px padding) = ~35px/cellule */
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 4px;
+    width: 100%;
+  }
+
+  /* ------------------------------------------------- */
+  /* CELLULES MOBILE : grandes, lisibles, touch-safe   */
+  /* ------------------------------------------------- */
+
+  .admin .cell {
+    aspect-ratio: 1;
+    width: auto;
+    height: auto;
+
+    /* Sur Pixel 8 (393px - 20px padding = 373px / 10 cols - 4px gap×9 = ~31px)
+       On force une police adaptée à cette taille réelle */
+    font-size: clamp(10px, 3.2vw, 14px);
+    font-weight: 900;
+
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+
+    /* Feedback tactile au lieu du hover */
+    transition:
+      transform 0.08s ease,
+      background 0.1s ease;
+  }
+
+  /* Supprime hover desktop sur touch */
+  .admin .cell:hover {
+    transform: none;
+    background: white;
+  }
+
+  /* Feedback au tap */
+  .admin .cell:active:not(.used) {
+    transform: scale(0.91);
+    background: #e8f0ff;
+  }
+
+  /* Numéro déjà tiré bien visible */
+  .admin .cell.used {
+    opacity: 0.35;
+    background: #d0d0d0;
+  }
+
+  /* Dernier tiré */
+  .admin .cell.latest {
+    background: #ff9800;
+    color: #111;
+    transform: scale(1.05);
+    z-index: 2;
+  }
+
+  /* Reset button sticky en bas */
+  .control-panel .card:first-child {
+    position: sticky;
+    bottom: 10px;
+    z-index: 80;
   }
 
   .btn {
-    font-size: 11px;
-    padding: 10px;
+    font-size: 13px;
+    padding: 14px;
+    min-height: 50px;
+    border-radius: 12px;
   }
 
   .status {
-    font-size: 11px;
+    font-size: 12px;
+  }
+}
+
+/* ===================================================== */
+/* TRÈS PETIT MOBILE (< 380px) */
+/* ===================================================== */
+
+@media (max-width: 380px) {
+  .admin .admin-layout {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .admin .grid {
+    gap: 2px;
+  }
+
+  .admin .cell {
+    font-size: clamp(9px, 3vw, 12px);
+    border-radius: 4px;
+  }
+
+  .step {
+    min-width: 44px;
+    padding: 6px 8px;
   }
 }

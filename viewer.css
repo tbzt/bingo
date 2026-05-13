@@ -14,24 +14,49 @@ body {
 /* ===================================================== */
 
 .header {
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  padding: 18px 20px;
+  background: white;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
 }
 
 .fullscreen-btn {
   position: absolute;
-  top: 20px;
   right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 
   border: none;
   background: #111;
   color: white;
 
-  padding: 10px 14px;
+  padding: 9px 14px;
   border-radius: 10px;
-
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.15s ease;
+}
+
+.fullscreen-btn:hover {
+  opacity: 0.8;
+}
+
+/* Masquer sur mobile (fullscreen natif non dispo sur iOS) */
+@media (max-width: 768px) {
+  .fullscreen-btn {
+    display: none;
+  }
 }
 
 /* ===================================================== */
@@ -43,11 +68,11 @@ body {
   justify-content: center;
   align-items: flex-start;
 
-  gap: 40px;
+  gap: 32px;
 
   max-width: 1200px;
   margin: auto;
-  padding: 20px;
+  padding: 24px 20px;
 }
 
 /* ===================================================== */
@@ -56,73 +81,94 @@ body {
 
 .board {
   flex: 1;
+  min-width: 0;
 }
 
 /* ===================================================== */
-/* LAST NUMBERS */
+/* DERNIERS TIRAGES */
 /* ===================================================== */
 
 .last3 {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 10px;
 }
 
 .last-header {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  opacity: 0.6;
-  margin-bottom: 8px;
-  letter-spacing: 0.5px;
+  opacity: 0.5;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
 }
 
 .last-numbers {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 
+/* Chip de base */
 .last-chip {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 999px;
+  border-radius: 50%;
 
-  background: #ffb347;
+  background: #ffcc88;
   color: #111;
 
   font-weight: 800;
   font-size: 18px;
 
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: 0.2s ease;
 }
 
+/* Dernier tirage — mis en avant */
 .last-chip:first-child {
-  transform: scale(1.1);
+  width: 72px;
+  height: 72px;
+  font-size: 26px;
+  background: #ff9800;
   box-shadow:
-    0 0 0 4px rgba(255, 152, 0, 0.25),
-    0 10px 30px rgba(255, 152, 0, 0.35);
+    0 0 0 4px rgba(255, 152, 0, 0.2),
+    0 10px 28px rgba(255, 152, 0, 0.35);
+}
+
+/* 2e et 3e en retrait */
+.last-chip:nth-child(2) {
+  opacity: 0.75;
+}
+.last-chip:nth-child(3) {
+  opacity: 0.5;
+  width: 46px;
+  height: 46px;
+  font-size: 15px;
 }
 
 /* ===================================================== */
-/* GRID BINGO */
+/* GRILLE BINGO */
 /* ===================================================== */
 
 .bingo-grid {
   display: grid;
-
   grid-template-columns: repeat(10, 1fr);
   gap: 6px;
 
-  width: min(540px, 100%);
-  margin: auto;
+  width: min(560px, 100%);
+  margin: 0 auto;
 }
 
 /* ===================================================== */
-/* CELLS (style carton bingo) */
+/* CELLULES */
 /* ===================================================== */
 
 .cell {
@@ -132,116 +178,118 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 14px;
+  font-size: clamp(11px, 1.5vw, 16px);
   font-weight: 700;
 
-  border-radius: 10px;
-
+  border-radius: 8px;
   user-select: none;
 
-  background: #eaf1ff;
-  color: #6f7a8a;
+  /* Non tiré : discret mais lisible */
+  background: #e4ecff;
+  color: #b0bdd4;
 
   border: 1px solid rgba(0, 0, 0, 0.04);
-
   transition: all 0.15s ease;
+
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
 }
 
-/* état non tiré = papier */
-.cell {
-  background: #eaf1ff;
-  color: #eaf1ff; /* quasi invisible comme carton vide */
-}
-
-/* tiré */
+/* Tiré */
 .cell.active {
   background: #ffcc66;
   color: #1a1a1a;
+  border-color: transparent;
 }
 
-/* dernier tiré */
+/* Dernier tiré */
 .cell.latest {
   background: #ff9800;
   color: #111;
-
-  transform: scale(1.12);
+  transform: scale(1.1);
   z-index: 2;
-
+  border-color: transparent;
   box-shadow:
     0 0 0 3px rgba(255, 152, 0, 0.25),
-    0 12px 30px rgba(255, 152, 0, 0.35);
+    0 8px 24px rgba(255, 152, 0, 0.35);
 }
 
-/* hover léger desktop */
+/* hover desktop */
 @media (hover: hover) {
   .cell:hover {
-    transform: scale(1.03);
+    transform: scale(1.04);
+  }
+  .cell.latest:hover {
+    transform: scale(1.1);
   }
 }
 
 /* ===================================================== */
-/* SIDEBAR RULES */
+/* SIDEBAR RÈGLES */
 /* ===================================================== */
 
 .viewer .sidebar {
-  width: 320px;
-
-  display: flex;
-  align-items: center; /* centre vertical */
-  justify-content: center; /* centre horizontal */
+  width: 300px;
+  flex-shrink: 0;
 }
 
 .rules-card {
   background: white;
   border-radius: 18px;
   padding: 20px;
-  margin: auto; /* garantit centrage réel */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
 }
 
 .rules-card h2 {
   margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 800;
 }
 
-/* règles */
 .rule {
-  padding: 14px;
+  padding: 14px 16px;
   border-radius: 12px;
-
   background: #f7f8fc;
-
-  margin-bottom: 12px;
-
-  opacity: 0.5;
+  margin-bottom: 10px;
+  opacity: 0.45;
   transition: 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.rule:last-child {
+  margin-bottom: 0;
 }
 
 .rule-title {
   font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.4px;
 }
 
 .rule-text {
-  font-size: 13px;
+  font-size: 12px;
   opacity: 0.7;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .rule-reward {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   margin-top: 6px;
+  color: #ff9800;
 }
 
-/* actif */
+/* Règle active */
 .rule.current-rule {
   opacity: 1;
-  border: 2px solid #ff9800;
-  background: #fff6e5;
+  border-color: #ff9800;
+  background: #fff8ed;
 }
 
-/* complété */
+/* Règle complétée */
 .rule.completed {
-  opacity: 0.25;
+  opacity: 0.2;
   text-decoration: line-through;
 }
 
@@ -252,8 +300,9 @@ body {
 .draw-overlay {
   position: fixed;
   inset: 0;
+  z-index: 99999;
 
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
 
   display: flex;
   align-items: center;
@@ -261,7 +310,6 @@ body {
 
   opacity: 0;
   pointer-events: none;
-
   transition: opacity 0.3s ease;
 }
 
@@ -275,11 +323,10 @@ body {
 }
 
 .draw-ball {
-  width: 240px;
-  height: 240px;
+  width: clamp(160px, 30vw, 240px);
+  height: clamp(160px, 30vw, 240px);
 
   border-radius: 50%;
-
   background: #ff9800;
   color: #111;
 
@@ -287,7 +334,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 110px;
+  font-size: clamp(60px, 12vw, 110px);
   font-weight: 900;
 
   box-shadow:
@@ -298,13 +345,10 @@ body {
 .draw-ball.start-mode {
   background: linear-gradient(135deg, #111, #333);
   color: #fff;
-
-  font-size: 64px;
-
+  font-size: clamp(32px, 6vw, 64px);
   box-shadow:
     0 0 0 10px rgba(255, 255, 255, 0.08),
     0 0 80px rgba(0, 0, 0, 0.6);
-
   animation: startPulse 1.2s ease-in-out infinite;
 }
 
@@ -332,8 +376,11 @@ body {
 }
 
 :fullscreen .bingo-grid {
-  transform: scale(1.05);
-  transform-origin: top center;
+  width: min(700px, 100%);
+}
+
+:fullscreen .cell {
+  font-size: clamp(14px, 2vw, 22px);
 }
 
 /* ===================================================== */
@@ -343,12 +390,23 @@ body {
 @media (max-width: 900px) {
   .viewer .layout {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 20px;
+    padding: 16px;
   }
 
-  .sidebar {
+  .viewer .sidebar {
     width: 100%;
+  }
+
+  /* Règles en ligne sur mobile pour gagner de la place */
+  .rules-card {
+    padding: 14px;
+  }
+
+  .rule {
+    padding: 10px 14px;
+    margin-bottom: 8px;
   }
 
   .bingo-grid {
@@ -357,43 +415,38 @@ body {
   }
 
   .cell {
-    font-size: 11px;
+    font-size: clamp(10px, 2.8vw, 14px);
     border-radius: 6px;
   }
 
   .last-chip {
-    width: 44px;
-    height: 44px;
-    font-size: 14px;
+    width: 46px;
+    height: 46px;
+    font-size: 15px;
+  }
+
+  .last-chip:first-child {
+    width: 62px;
+    height: 62px;
+    font-size: 22px;
+  }
+
+  .last-chip:nth-child(3) {
+    width: 38px;
+    height: 38px;
+    font-size: 13px;
   }
 }
 
 /* ===================================================== */
-/* FIX PRIORITÉ OVERLAY (anti cellule au-dessus animation) */
+/* STACKING CONTEXT SÉCURITÉ */
 /* ===================================================== */
 
-.draw-overlay {
-  z-index: 99999; /* garantit qu'il est AU-DESSUS de tout */
-}
-
-/* sécurité stacking context grille */
 .bingo-grid {
   position: relative;
   z-index: 1;
 }
 
-/* cellules restent sous overlay même avec transform */
-.cell {
-  position: relative;
-  z-index: 1;
-}
-
-/* dernier tiré : reste dans la grille, PAS au-dessus overlay */
-.cell.latest {
-  z-index: 2; /* OK localement */
-}
-
-/* overlay contient tout */
 .draw-overlay.show {
   z-index: 99999;
 }
