@@ -1,4 +1,10 @@
 /* ===================================================== */
+/* FONTS */
+/* ===================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;800&display=swap");
+
+/* ===================================================== */
 /* BASE */
 /* ===================================================== */
 
@@ -6,13 +12,21 @@ html,
 body {
   margin: 0;
   height: 100%;
-  overflow: hidden; /* pas de scroll sur la vue projector */
+  overflow: hidden;
 }
 
 body {
-  font-family: Inter, Arial, sans-serif;
-  background: #f4f7ff;
+  font-family: "DM Sans", Arial, sans-serif;
+  background: #f0f4ff;
   color: #111;
+
+  /* Fond pointillé subtil */
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
 }
 
 /* ===================================================== */
@@ -24,16 +38,18 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 18px 20px;
+  padding: 16px 20px;
   background: white;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
 }
 
 .header h1 {
   margin: 0;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #111;
 }
 
 .fullscreen-btn {
@@ -49,6 +65,7 @@ body {
   padding: 9px 14px;
   border-radius: 10px;
   cursor: pointer;
+  font-family: "DM Sans", sans-serif;
   font-size: 13px;
   font-weight: 600;
   transition: 0.15s ease;
@@ -58,7 +75,6 @@ body {
   opacity: 0.8;
 }
 
-/* Masquer sur mobile (fullscreen natif non dispo sur iOS) */
 @media (max-width: 768px) {
   .fullscreen-btn {
     display: none;
@@ -79,7 +95,7 @@ body {
   max-width: 1200px;
   margin: auto;
   padding: 24px 20px;
-  height: calc(100vh - 61px); /* header = 61px, 0 scroll */
+  height: calc(100vh - 61px);
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -109,10 +125,10 @@ body {
 }
 
 .last-header {
-  font-size: 12px;
-  font-weight: 600;
-  opacity: 0.5;
-  letter-spacing: 0.8px;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.45;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
@@ -123,7 +139,6 @@ body {
   gap: 12px;
 }
 
-/* Chip de base */
 .last-chip {
   width: 54px;
   height: 54px;
@@ -133,37 +148,36 @@ body {
   justify-content: center;
 
   border-radius: 50%;
-
   background: #ffcc88;
   color: #111;
 
-  font-weight: 800;
-  font-size: 18px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: 0.2s ease;
 }
 
-/* Dernier tirage — mis en avant */
 .last-chip:first-child {
   width: 72px;
   height: 72px;
-  font-size: 26px;
+  font-size: 34px;
   background: #ff9800;
   box-shadow:
     0 0 0 4px rgba(255, 152, 0, 0.2),
     0 10px 28px rgba(255, 152, 0, 0.35);
 }
 
-/* 2e et 3e en retrait */
 .last-chip:nth-child(2) {
   opacity: 0.75;
 }
+
 .last-chip:nth-child(3) {
   opacity: 0.5;
   width: 46px;
   height: 46px;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 /* ===================================================== */
@@ -175,10 +189,12 @@ body {
   grid-template-columns: repeat(10, 1fr);
   gap: 6px;
 
-  /* Remplit tout l'espace disponible dans .board */
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
+
+  position: relative;
+  z-index: 1;
 }
 
 /* ===================================================== */
@@ -192,22 +208,80 @@ body {
   align-items: center;
   justify-content: center;
 
+  font-family: "Bebas Neue", sans-serif;
   font-size: clamp(13px, 2vw, 22px);
-  font-weight: 700;
+  font-weight: 400;
 
   border-radius: 8px;
   user-select: none;
 
-  /* Non tiré : discret mais lisible */
   background: #e4ecff;
-  color: #e4ecff;
+  color: #e4ecff; /* invisible non tiré */
 
   border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: all 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
 
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------- */
+/* POP : déclenché via JS (classe .popping)          */
+/* ------------------------------------------------- */
+
+@keyframes cellPop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.22);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cell.popping {
+  animation: cellPop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+/* ------------------------------------------------- */
+/* SHIMMER sur les cellules actives                  */
+/* ------------------------------------------------- */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-15deg);
+  }
+}
+
+.cell.active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: shimmer 2.4s ease-in-out infinite;
+  animation-delay: var(--shimmer-delay, 0s);
+  pointer-events: none;
 }
 
 /* Tiré */
@@ -225,8 +299,12 @@ body {
   z-index: 2;
   border-color: transparent;
   box-shadow:
-    0 0 0 3px rgba(255, 152, 0, 0.25),
-    0 8px 24px rgba(255, 152, 0, 0.35);
+    0 0 0 3px rgba(255, 152, 0, 0.3),
+    0 8px 24px rgba(255, 152, 0, 0.4);
+}
+
+.cell.latest::after {
+  animation-duration: 1.4s;
 }
 
 /* hover desktop */
@@ -260,8 +338,10 @@ body {
 
 .rules-card h2 {
   margin: 0 0 16px 0;
-  font-size: 16px;
-  font-weight: 800;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 
 .rule {
@@ -270,7 +350,11 @@ body {
   background: #f7f8fc;
   margin-bottom: 10px;
   opacity: 0.45;
-  transition: 0.2s ease;
+  transition:
+    opacity 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
   border: 2px solid transparent;
 }
 
@@ -279,9 +363,10 @@ body {
 }
 
 .rule-title {
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: 0.4px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 
 .rule-text {
@@ -295,7 +380,6 @@ body {
   font-weight: 700;
   margin-top: 6px;
   color: #ff9800;
-  justify-content: center;
 }
 
 /* Règle active */
@@ -303,6 +387,23 @@ body {
   opacity: 1;
   border-color: #ff9800;
   background: #fff8ed;
+}
+
+/* Petite animation quand une règle devient active */
+@keyframes ruleActivate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.rule.current-rule {
+  animation: ruleActivate 0.4s ease forwards;
 }
 
 /* Règle complétée */
@@ -328,7 +429,7 @@ body {
 
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .draw-overlay.show {
@@ -340,32 +441,83 @@ body {
   display: none;
 }
 
+/* ------------------------------------------------- */
+/* BALL DROP : tombe de haut avec rebond             */
+/* ------------------------------------------------- */
+
+@keyframes ballDrop {
+  0% {
+    transform: translateY(-110vh) scale(0.6);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(14px) scale(1.06);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(-16px) scale(0.97);
+  }
+  82% {
+    transform: translateY(8px) scale(1.02);
+  }
+  91% {
+    transform: translateY(-5px) scale(0.99);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes ballExit {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) scale(0.7);
+    opacity: 0;
+  }
+}
+
 .draw-ball {
   width: clamp(160px, 30vw, 240px);
   height: clamp(160px, 30vw, 240px);
 
   border-radius: 50%;
-  background: #ff9800;
+  background: radial-gradient(circle at 35% 35%, #ffb74d, #ff9800 60%, #e65100);
   color: #111;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  font-family: "Bebas Neue", sans-serif;
   font-size: clamp(60px, 12vw, 110px);
-  font-weight: 900;
+  font-weight: 400;
+  letter-spacing: 2px;
 
   box-shadow:
     0 0 0 10px rgba(255, 152, 0, 0.15),
-    0 30px 80px rgba(0, 0, 0, 0.4);
+    inset 0 -6px 16px rgba(0, 0, 0, 0.2),
+    0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.draw-ball.dropping {
+  animation: ballDrop 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.draw-ball.exiting {
+  animation: ballExit 0.4s ease-in forwards;
 }
 
 .draw-ball.start-mode {
-  background: linear-gradient(135deg, #111, #333);
+  background: linear-gradient(135deg, #1a1a2e, #333);
   color: #fff;
-  font-size: clamp(32px, 6vw, 64px);
+  font-size: clamp(32px, 6vw, 60px);
+  letter-spacing: 1px;
   box-shadow:
-    0 0 0 10px rgba(255, 255, 255, 0.08),
+    0 0 0 10px rgba(255, 255, 255, 0.06),
     0 0 80px rgba(0, 0, 0, 0.6);
   animation: startPulse 1.2s ease-in-out infinite;
 }
@@ -373,7 +525,7 @@ body {
 @keyframes startPulse {
   0% {
     transform: scale(0.95);
-    opacity: 0.8;
+    opacity: 0.85;
   }
   50% {
     transform: scale(1.05);
@@ -381,7 +533,7 @@ body {
   }
   100% {
     transform: scale(0.95);
-    opacity: 0.8;
+    opacity: 0.85;
   }
 }
 
@@ -394,11 +546,11 @@ body {
 }
 
 :fullscreen .bingo-grid {
-  width: min(700px, 100%);
+  max-width: 900px;
 }
 
 :fullscreen .cell {
-  font-size: clamp(16px, 2.5vw, 28px);
+  font-size: clamp(16px, 2.5vw, 30px);
 }
 
 /* ===================================================== */
@@ -406,18 +558,24 @@ body {
 /* ===================================================== */
 
 @media (max-width: 900px) {
+  html,
+  body {
+    overflow: auto;
+  }
+
   .viewer .layout {
     flex-direction: column;
     align-items: stretch;
+    height: auto;
     gap: 20px;
     padding: 16px;
+    overflow: visible;
   }
 
   .viewer .sidebar {
     width: 100%;
   }
 
-  /* Règles en ligne sur mobile pour gagner de la place */
   .rules-card {
     padding: 14px;
   }
@@ -440,30 +598,25 @@ body {
   .last-chip {
     width: 46px;
     height: 46px;
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .last-chip:first-child {
     width: 62px;
     height: 62px;
-    font-size: 22px;
+    font-size: 28px;
   }
 
   .last-chip:nth-child(3) {
     width: 38px;
     height: 38px;
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
 /* ===================================================== */
-/* STACKING CONTEXT SÉCURITÉ */
+/* STACKING CONTEXT */
 /* ===================================================== */
-
-.bingo-grid {
-  position: relative;
-  z-index: 1;
-}
 
 .draw-overlay.show {
   z-index: 99999;

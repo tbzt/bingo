@@ -35,18 +35,8 @@ function setStatus(msg) {
   statusEl.textContent = msg;
 }
 
-document.querySelectorAll(".btn.step").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document
-      .querySelectorAll(".btn.step")
-      .forEach((b) => b.classList.remove("active"));
-
-    btn.classList.add("active");
-  });
-});
-
 // ----------------------
-// RENDER
+// RENDER GRILLE
 // ----------------------
 
 function render(state) {
@@ -60,10 +50,8 @@ function render(state) {
     cell.className = "cell";
     cell.textContent = i;
 
-    // numéro déjà tiré
     if (used.has(i)) {
       cell.classList.add("used");
-
       cell.style.pointerEvents = "none";
     } else {
       cell.addEventListener("click", () => {
@@ -71,7 +59,6 @@ function render(state) {
       });
     }
 
-    // dernier numéro
     if (i === state.current) {
       cell.classList.add("latest");
     }
@@ -80,11 +67,19 @@ function render(state) {
   }
 }
 
+// ----------------------
+// RENDER PROGRESSION
+// ----------------------
+
 function renderProgress(step) {
   const order = ["quine", "doubleQuine", "bingo"];
 
+  // Lignes entre les steps
+  const lines = document.querySelectorAll(".progress .line");
+
   order.forEach((s, index) => {
     const el = document.getElementById(`step-${s}`);
+    if (!el) return;
 
     el.classList.remove("active", "done");
 
@@ -97,6 +92,11 @@ function renderProgress(step) {
     if (index === currentIndex) {
       el.classList.add("active");
     }
+
+    // Remplir la ligne si le step suivant est done ou active
+    if (lines[index]) {
+      lines[index].classList.toggle("filled", index < currentIndex);
+    }
   });
 }
 
@@ -108,12 +108,9 @@ async function sendNumber(n) {
   setStatus(`Envoi ${n}...`);
 
   const snap = await get(stateRef);
-
   const state = snap.exists() ? snap.val() : { current: 0, history: [] };
 
-  // sécurité si history absent
   state.history = state.history || [];
-
   state.current = n;
 
   if (!state.history.includes(n)) {
@@ -134,7 +131,6 @@ let resetArmed = false;
 async function resetGame() {
   if (!resetArmed) {
     resetArmed = true;
-
     setStatus("⚠ Reclique pour confirmer");
 
     setTimeout(() => {
@@ -149,38 +145,52 @@ async function resetGame() {
     current: 0,
     history: [],
     rules: {
-      keen: false,
-      doublekeen: false,
-      bingo: false,
+      step: "quine",
     },
   });
 
   resetArmed = false;
-
-  setStatus("✔ On démarque !");
+  setStatus("✔ Partie réinitialisée !");
 }
+
+// ----------------------
+// TOGGLE RULE
+// ----------------------
 
 async function toggleRule(ruleName) {
   const snap = await get(stateRef);
-
   const state = snap.exists()
     ? snap.val()
-    : {
-        current: 0,
-        history: [],
-        rules: {},
-      };
+    : { current: 0, history: [], rules: {} };
 
   state.rules = state.rules || {};
-
   state.rules[ruleName] = !state.rules[ruleName];
 
   await set(stateRef, state);
-
   setStatus(`✔ Règle mise à jour : ${ruleName}`);
 }
 
 window.toggleRule = toggleRule;
+
+// ----------------------
+// SET STEP
+// ----------------------
+
+async function setStep(step) {
+  const snap = await get(stateRef);
+  const state = snap.val() || {};
+
+  state.rules = { step };
+
+  await set(stateRef, state);
+  setStatus(`✔ Étape : ${step}`);
+}
+
+window.setStep = setStep;
+
+// ----------------------
+// RENDER RULES ADMIN
+// ----------------------
 
 function renderRulesAdmin(rules = {}) {
   const current = rules.current;
@@ -188,51 +198,12 @@ function renderRulesAdmin(rules = {}) {
 
   document.querySelectorAll(".rule-admin").forEach((el) => {
     const rule = el.dataset.rule;
+    el.classList.remove("active", "completed");
 
-    el.classList.remove("active");
-    el.classList.remove("completed");
-
-    if (rule === current) {
-      el.classList.add("active");
-    }
-
-    if (completed.includes(rule)) {
-      el.classList.add("completed");
-    }
+    if (rule === current) el.classList.add("active");
+    if (completed.includes(rule)) el.classList.add("completed");
   });
 }
-
-async function setStep(step) {
-  const snap = await get(stateRef);
-  const state = snap.val() || {};
-
-  state.rules = {
-    step: step,
-  };
-
-  await set(stateRef, state);
-}
-
-window.setStep = setStep;
-
-async function setRule(rule) {
-  const order = ["quine", "doubleQuine", "bingo"];
-
-  const completed = order.filter((r) => r !== rule);
-
-  const snap = await get(stateRef);
-
-  const state = snap.val() || {};
-
-  state.rules = {
-    current: rule,
-    completed,
-  };
-
-  await set(stateRef, state);
-}
-
-window.setRule = setRule;
 
 // ----------------------
 // LIVE SYNC
@@ -240,7 +211,6 @@ window.setRule = setRule;
 
 onValue(stateRef, (snap) => {
   const state = snap.val();
-
   if (!state) return;
 
   render(state);
@@ -253,5 +223,4 @@ onValue(stateRef, (snap) => {
 // ----------------------
 
 document.getElementById("resetBtn").addEventListener("click", resetGame);
-
 setStatus("Prêt");

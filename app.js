@@ -49,6 +49,12 @@ function buildGrid() {
     cell.className = "cell";
     cell.textContent = i;
 
+    // Délai de shimmer aléatoire pour éviter l'effet synchronisé
+    cell.style.setProperty(
+      "--shimmer-delay",
+      `${(Math.random() * 2).toFixed(2)}s`,
+    );
+
     gridEl.appendChild(cell);
     cells[i] = cell;
   }
@@ -61,12 +67,31 @@ buildGrid();
 // ----------------------
 
 function render(history = [], current = null) {
-  const set = new Set(history);
+  const activeSet = new Set(history);
 
   Object.entries(cells).forEach(([n, cell]) => {
     const num = Number(n);
+    const wasActive = cell.classList.contains("active");
+    const isActive = activeSet.has(num);
 
-    cell.classList.toggle("active", set.has(num));
+    // Pop sur les cellules qui viennent de passer en active
+    if (isActive && !wasActive) {
+      cell.classList.add("active");
+      cell.classList.remove("popping");
+      // Force reflow pour relancer l'animation si déjà présente
+      void cell.offsetWidth;
+      cell.classList.add("popping");
+      cell.addEventListener(
+        "animationend",
+        () => {
+          cell.classList.remove("popping");
+        },
+        { once: true },
+      );
+    } else if (!isActive) {
+      cell.classList.remove("active", "popping");
+    }
+
     cell.classList.toggle("latest", num === current);
   });
 }
@@ -91,11 +116,11 @@ function renderRules(rules = {}) {
     const stepIndex = order.indexOf(step);
 
     if (index < stepIndex) {
-      el.classList.add("completed"); // déjà passé
+      el.classList.add("completed");
     }
 
     if (rule === step) {
-      el.classList.add("current-rule"); // actif
+      el.classList.add("current-rule");
     }
   });
 }
@@ -110,14 +135,14 @@ onValue(stateRef, (snap) => {
 
   const history = state.history || [];
 
-  // animation nouveau tirage
+  // Animation nouveau tirage
   if (previousCurrent !== null && state.current !== previousCurrent) {
     animateDraw(state.current);
   }
 
   previousCurrent = state.current;
 
-  // derniers numéros
+  // Derniers numéros
   const last3 = history.slice(-3).reverse();
 
   lastNumbersEl.innerHTML = "";
@@ -133,31 +158,47 @@ onValue(stateRef, (snap) => {
   renderRules(state.rules || {});
 });
 
+// ----------------------
+// ANIMATION BOULE
+// ----------------------
 
 function animateDraw(number) {
   const isStart = number === 0;
 
-  // texte
-  drawBallEl.textContent = isStart ? "🎱 Début de partie" : number;
-
-  // style visuel différent
+  // Texte
+  drawBallEl.textContent = isStart ? "🎱 Début" : number;
   drawBallEl.classList.toggle("start-mode", isStart);
 
-  // animation overlay
+  // Reset des classes d'animation
+  drawBallEl.classList.remove("dropping", "exiting");
   overlayEl.classList.remove("hidden");
-  overlayEl.classList.add("show");
 
-  const duration = isStart ? 2200 : 1200;
+  // Petit délai pour que le DOM applique le reset avant l'animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      overlayEl.classList.add("show");
+      drawBallEl.classList.add("dropping");
+    });
+  });
+
+  const duration = isStart ? 2200 : 1400;
 
   setTimeout(() => {
-    overlayEl.classList.remove("show");
+    // Sortie : la boule tombe vers le bas
+    drawBallEl.classList.remove("dropping");
+    drawBallEl.classList.add("exiting");
 
     setTimeout(() => {
+      overlayEl.classList.remove("show");
       overlayEl.classList.add("hidden");
-      drawBallEl.classList.remove("start-mode");
+      drawBallEl.classList.remove("exiting", "start-mode");
     }, 400);
   }, duration);
 }
+
+// ----------------------
+// FULLSCREEN
+// ----------------------
 
 fullscreenBtn.addEventListener("click", async () => {
   if (!document.fullscreenElement) {

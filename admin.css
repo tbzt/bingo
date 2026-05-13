@@ -1,9 +1,26 @@
 /* ===================================================== */
+/* FONTS */
+/* ===================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700;800&display=swap");
+
+/* ===================================================== */
 /* RESET & BASE */
 /* ===================================================== */
 
 .admin {
   overflow-x: hidden;
+  font-family: "DM Sans", Arial, sans-serif;
+
+  /* Fond pointillé identique au viewer */
+  background: #f0f4ff;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  min-height: 100vh;
 }
 
 /* ===================================================== */
@@ -23,13 +40,18 @@
 }
 
 .brand {
-  font-weight: 800;
-  font-size: 16px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  color: #111;
 }
 
 .status {
   font-size: 13px;
-  opacity: 0.6;
+  font-weight: 600;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
 }
 
 /* ===================================================== */
@@ -53,12 +75,16 @@
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 .card h2 {
   margin: 0 0 14px 0;
-  font-size: 15px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #111;
 }
 
 /* ===================================================== */
@@ -72,11 +98,13 @@
   padding: 14px 18px;
   border-radius: 12px;
   cursor: pointer;
+  font-family: "DM Sans", sans-serif;
   font-size: 14px;
   font-weight: 700;
   transition: 0.15s ease;
   min-height: 52px;
   width: 100%;
+  letter-spacing: 0.3px;
 }
 
 .btn.danger {
@@ -89,69 +117,117 @@
 }
 
 /* ===================================================== */
-/* PROGRESSION */
+/* PROGRESSION ANIMÉE */
 /* ===================================================== */
 
 .progress {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 0;
+  position: relative;
 }
 
+/* Ligne de fond entre les steps */
 .line {
   flex: 1;
-  height: 2px;
+  height: 3px;
   background: #e0e0e0;
-  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Remplissage animé de la ligne */
+.line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #ff9800;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Quand le step suivant est done, la ligne entre se remplit */
+.line.filled::after {
+  transform: scaleX(1);
 }
 
 .step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   cursor: pointer;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-radius: 12px;
   background: #eee;
-  color: #555;
+  color: #999;
+  font-family: "DM Sans", sans-serif;
   font-size: 11px;
   font-weight: 700;
-  transition: 0.2s ease;
-  min-width: 60px;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+  min-width: 64px;
   text-align: center;
-  /* touch target correct */
   min-height: 48px;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .step .dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: currentColor;
-  opacity: 0.4;
+  opacity: 0.35;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .step .label {
-  font-size: 10px;
-  letter-spacing: 0.3px;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Actif */
+@keyframes stepActivate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .step.active {
   background: #ff9800;
   color: #111;
+  animation: stepActivate 0.4s ease forwards;
 }
 
 .step.active .dot {
   opacity: 1;
+  transform: scale(1.3);
 }
 
+/* Complété */
 .step.done {
   background: #111;
   color: white;
   opacity: 0.3;
+}
+
+.step.done .dot {
+  opacity: 1;
 }
 
 /* ===================================================== */
@@ -172,7 +248,6 @@
 /* ===================================================== */
 
 .admin .cell {
-  /* FIX : pas de width/height fixe, on laisse la grille gérer */
   width: auto;
   height: auto;
   aspect-ratio: 1;
@@ -181,9 +256,10 @@
   align-items: center;
   justify-content: center;
 
-  /* Taille de police dynamique selon la largeur de cellule */
+  font-family: "Bebas Neue", sans-serif;
   font-size: clamp(11px, 1.3vw, 17px);
-  font-weight: 900;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 
   border-radius: 8px;
   background: white;
@@ -205,7 +281,7 @@
 .admin .cell.used {
   background: #e0e0e0;
   color: #aaa;
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -229,11 +305,10 @@
 }
 
 /* ===================================================== */
-/* MOBILE — PIXEL 8 (393px) */
+/* MOBILE — PIXEL 8 */
 /* ===================================================== */
 
 @media (max-width: 768px) {
-  /* Layout colonne */
   .admin .admin-layout {
     display: flex;
     flex-direction: column;
@@ -241,16 +316,14 @@
     gap: 10px;
   }
 
-  /* Header compact */
   .admin-header {
     padding: 10px 14px;
   }
 
   .brand {
-    font-size: 14px;
+    font-size: 17px;
   }
 
-  /* Cards sans marge basse */
   .card {
     margin-bottom: 0;
     padding: 12px;
@@ -258,14 +331,13 @@
   }
 
   .card h2 {
-    font-size: 13px;
+    font-size: 15px;
     margin-bottom: 10px;
   }
 
-  /* Progression sticky en haut */
   .rules-panel {
     position: sticky;
-    top: 53px; /* sous le header sticky */
+    top: 53px;
     z-index: 90;
     background: white;
     border-radius: 0 0 14px 14px;
@@ -273,7 +345,7 @@
   }
 
   .progress {
-    gap: 6px;
+    gap: 0;
   }
 
   .step {
@@ -285,62 +357,43 @@
   }
 
   .step .label {
-    font-size: 9px;
+    font-size: 8px;
   }
 
-  /* ------------------------------------------------- */
-  /* GRILLE : priorité absolue, prend toute la largeur */
-  /* ------------------------------------------------- */
-
+  /* Grille */
   .admin .grid {
-    /* 10 colonnes dans ~373px (393 - 2×10px padding) = ~35px/cellule */
     grid-template-columns: repeat(10, minmax(0, 1fr));
     gap: 4px;
     width: 100%;
   }
 
-  /* ------------------------------------------------- */
-  /* CELLULES MOBILE : grandes, lisibles, touch-safe   */
-  /* ------------------------------------------------- */
-
   .admin .cell {
     aspect-ratio: 1;
     width: auto;
     height: auto;
-
-    /* Sur Pixel 8 (393px - 20px padding = 373px / 10 cols - 4px gap×9 = ~31px)
-       On force une police adaptée à cette taille réelle */
     font-size: clamp(10px, 3.2vw, 14px);
-    font-weight: 900;
-
     border-radius: 6px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
-
-    /* Feedback tactile au lieu du hover */
     transition:
       transform 0.08s ease,
       background 0.1s ease;
   }
 
-  /* Supprime hover desktop sur touch */
   .admin .cell:hover {
     transform: none;
     background: white;
   }
 
-  /* Feedback au tap */
   .admin .cell:active:not(.used) {
     transform: scale(0.91);
     background: #e8f0ff;
   }
 
-  /* Numéro déjà tiré bien visible */
   .admin .cell.used {
     opacity: 0.35;
     background: #d0d0d0;
   }
 
-  /* Dernier tiré */
   .admin .cell.latest {
     background: #ff9800;
     color: #111;
@@ -348,7 +401,7 @@
     z-index: 2;
   }
 
-  /* Reset button sticky en bas */
+  /* Reset sticky en bas */
   .control-panel .card:first-child {
     position: sticky;
     bottom: 10px;
