@@ -253,37 +253,6 @@ body {
   animation: cellPop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
 }
 
-/* ------------------------------------------------- */
-/* SHIMMER sur les cellules actives                  */
-/* ------------------------------------------------- */
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%) skewX(-15deg);
-  }
-  100% {
-    transform: translateX(250%) skewX(-15deg);
-  }
-}
-
-.cell.active::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.55),
-    transparent
-  );
-  animation: shimmer 2.4s ease-in-out infinite;
-  animation-delay: var(--shimmer-delay, 0s);
-  pointer-events: none;
-}
-
 /* Tiré */
 .cell.active {
   background: #ffcc66;
@@ -301,10 +270,6 @@ body {
   box-shadow:
     0 0 0 3px rgba(255, 152, 0, 0.3),
     0 8px 24px rgba(255, 152, 0, 0.4);
-}
-
-.cell.latest::after {
-  animation-duration: 1.4s;
 }
 
 /* hover desktop */
