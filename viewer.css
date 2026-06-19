@@ -286,6 +286,46 @@ body {
 }
 
 /* ===================================================== */
+/* QR CODE */
+/* ===================================================== */
+
+.qr-card {
+  margin-top: 16px;
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.qr-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 10px;
+  display: block;
+}
+
+.qr-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.5;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Masqué sur mobile */
+@media (max-width: 900px) {
+  .qr-card {
+    display: none;
+  }
+}
+
+/* ===================================================== */
 /* SIDEBAR RÈGLES */
 /* ===================================================== */
 
