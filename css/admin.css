@@ -86,6 +86,12 @@
   flex-direction: column;
   margin-bottom: 0;
   min-height: 0;
+  padding: 16px 20px;
+}
+
+.grid-panel .card h2 {
+  margin: 0 0 12px 0;
+  padding-bottom: 10px;
 }
 
 .grid-panel .card #adminGrid {
@@ -93,9 +99,8 @@
   min-height: 0;
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
-  /* Les rangées se répartissent la hauteur disponible */
   grid-template-rows: repeat(9, 1fr);
-  gap: clamp(3px, 0.5vw, 7px);
+  gap: clamp(2px, 0.4vw, 6px);
   width: 100%;
   box-sizing: border-box;
   align-content: stretch;
@@ -343,20 +348,20 @@
 .admin .cell {
   width: auto;
   height: auto;
-  aspect-ratio: 1;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(14px, 2vw, 26px);
+  /* 9 rangées dans ~80vh → police ~4vh max */
+  font-size: clamp(10px, 6.5vh, 40px);
   font-weight: 400;
   letter-spacing: 0.5px;
   line-height: 1;
-  padding-top: 0.08em; /* compensation optique Bebas */
+  padding-top: 0.12em;
 
-  border-radius: 10px;
+  border-radius: 6px;
   background: #f4f7ff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
@@ -366,6 +371,13 @@
     background 0.15s ease,
     box-shadow 0.1s ease;
   box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .admin .cell {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .admin .cell:hover {
