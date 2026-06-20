@@ -59,12 +59,13 @@
 
 .admin .admin-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  /* Panneau gauche plus généreux, grille prend le reste */
+  grid-template-columns: clamp(300px, 28%, 420px) 1fr;
   grid-template-rows: 1fr;
-  gap: 24px;
-  padding: 24px;
+  gap: 20px;
+  padding: 20px;
   min-width: 0;
-  height: calc(100vh - 53px); /* 100vh - header */
+  height: calc(100vh - 53px);
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -75,6 +76,7 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
+  gap: 16px;
 }
 
 /* La card de la grille prend toute la hauteur disponible */
@@ -88,7 +90,7 @@
 
 .grid-panel .card #adminGrid {
   flex: 1;
-  align-content: start;
+  align-content: center; /* centre verticalement la grille */
 }
 
 /* ===================================================== */
@@ -97,19 +99,50 @@
 
 .card {
   background: white;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 16px;
+  border-radius: 20px;
+  padding: 20px 24px;
+  margin-bottom: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 .card h2 {
-  margin: 0 0 14px 0;
+  margin: 0 0 18px 0;
   font-family: "Bebas Neue", sans-serif;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 400;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   color: #111;
+  border-bottom: 2px solid #f0f4ff;
+  padding-bottom: 12px;
+}
+
+/* Panneau gauche : reset prend toute la place disponible */
+.control-panel {
+  justify-content: flex-start;
+}
+
+.control-panel .card:first-child {
+  /* Card reset : visuellement plus importante */
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  color: white;
+}
+
+.control-panel .card:first-child h2 {
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Card progression prend l'espace restant */
+.control-panel .card:last-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.control-panel .card:last-child .rules-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 /* ===================================================== */
@@ -118,22 +151,28 @@
 
 .btn {
   border: none;
-  background: #111;
+  background: #ff3b30;
   color: white;
-  padding: 14px 18px;
-  border-radius: 12px;
+  padding: 16px 18px;
+  border-radius: 14px;
   cursor: pointer;
   font-family: "DM Sans", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   transition: 0.15s ease;
-  min-height: 52px;
+  min-height: 56px;
   width: 100%;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.35);
 }
 
 .btn.danger {
   background: #ff3b30;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 59, 48, 0.45);
 }
 
 .btn:active {
@@ -151,6 +190,7 @@
   align-items: center;
   gap: 0;
   position: relative;
+  width: 100%;
 }
 
 /* Ligne de fond entre les steps */
@@ -175,7 +215,6 @@
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Quand le step suivant est done, la ligne entre se remplit */
 .line.filled::after {
   transform: scaleX(1);
 }
@@ -184,23 +223,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: #e4e4e4;
-  color: #888;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #f0f0f0;
+  color: #999;
   font-family: "DM Sans", sans-serif;
-  font-size: 11px;
   font-weight: 700;
   transition:
     background 0.3s ease,
     color 0.3s ease,
     transform 0.3s ease,
     box-shadow 0.3s ease;
-  min-width: 70px;
+  min-width: 80px;
   text-align: center;
-  min-height: 52px;
+  min-height: 64px;
   justify-content: center;
   position: relative;
   z-index: 1;
@@ -208,8 +246,8 @@
 }
 
 .step .dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: currentColor;
   opacity: 0.35;
@@ -219,9 +257,10 @@
 }
 
 .step .label {
-  font-size: 9px;
-  letter-spacing: 0.5px;
+  font-size: 11px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
+  font-weight: 800;
 }
 
 /* Actif */
@@ -267,7 +306,7 @@
 .admin .grid {
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: clamp(3px, 0.5vw, 6px);
+  gap: clamp(4px, 0.6vw, 8px);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -287,32 +326,35 @@
   justify-content: center;
 
   font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(11px, 1.3vw, 17px);
+  font-size: clamp(14px, 2vw, 26px);
   font-weight: 400;
   letter-spacing: 0.5px;
+  line-height: 1;
+  padding-top: 0.08em; /* compensation optique Bebas */
 
-  border-radius: 8px;
-  background: white;
+  border-radius: 10px;
+  background: #f4f7ff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   user-select: none;
   transition:
     transform 0.1s ease,
-    background 0.15s ease;
+    background 0.15s ease,
+    box-shadow 0.1s ease;
   box-sizing: border-box;
-  line-height: 1;
 }
 
 .admin .cell:hover {
-  transform: scale(1.06);
-  background: #f0f4ff;
+  transform: scale(1.08);
+  background: #e8f0ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .admin .cell.used {
   background: #e0e0e0;
   color: #aaa;
   opacity: 0.4;
-  cursor: pointer; /* cliquable pour annuler */
+  cursor: pointer;
   box-shadow: none;
 }
 
@@ -339,7 +381,9 @@
   background: #ff9800;
   color: #111;
   transform: scale(1.08);
-  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.3);
+  box-shadow:
+    0 0 0 3px rgba(255, 152, 0, 0.3),
+    0 6px 16px rgba(255, 152, 0, 0.3);
 }
 
 /* ===================================================== */
