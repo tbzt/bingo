@@ -4,17 +4,20 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bingo Live</title>
+    <title>Bingo FCPE · Karl Marx</title>
 
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="components.css">
-    <link rel="stylesheet" href="viewer.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/viewer.css">
 </head>
 
 <body class="viewer">
 
     <header class="header">
-        <h1>🎱 Bingo de la FCPE Karl Marx - 19 juin 2026</h1>
+        <div class="header-brand">
+            <div class="header-title">🎱 BINGO · FCPE KARL MARX</div>
+            <div class="header-subtitle">Édition du 19 juin 2026</div>
+        </div>
         <button id="fullscreenBtn" class="fullscreen-btn">
             📺 Plein écran
         </button>
@@ -23,17 +26,11 @@
     <main class="layout">
 
         <!-- COLONNE GAUCHE -->
-
         <section class="board">
 
             <div class="last3">
-
-                <div class="last-header">
-                    3 derniers tirages :
-                </div>
-
+                <div class="last-header">3 derniers tirages :</div>
                 <div id="lastNumbers" class="last-numbers"></div>
-
             </div>
 
             <div id="grid" class="bingo-grid"></div>
@@ -41,7 +38,6 @@
         </section>
 
         <!-- COLONNE DROITE -->
-
         <aside class="sidebar">
 
             <div class="rules-card">
@@ -50,52 +46,53 @@
 
                 <div id="rule-quine" class="rule">
                     <div class="rule-title">QUINE</div>
-                    <div class="rule-text">
-                        Une ligne complète
-                    </div>
-                    <div class="rule-reward">
-                        🎁 Un lot gagné
-                    </div>
+                    <div class="rule-text">Une ligne complète</div>
+                    <div class="rule-reward">🎁 Un lot gagné</div>
                 </div>
 
                 <div id="rule-doublequine" class="rule">
                     <div class="rule-title">DOUBLE QUINE</div>
-                    <div class="rule-text">
-                        Deux lignes complètes
-                    </div>
-                    <div class="rule-reward">
-                        🎁 Un lot gagné
-                    </div>
+                    <div class="rule-text">Deux lignes complètes</div>
+                    <div class="rule-reward">🎁 Un lot gagné</div>
                 </div>
 
                 <div id="rule-bingo" class="rule">
                     <div class="rule-title">BINGO !</div>
-                    <div class="rule-text">
-                        Toute la grille complétée
-                    </div>
-                    <div class="rule-reward">
-                        🏆 Gros lot
-                    </div>
+                    <div class="rule-text">Toute la grille complétée</div>
+                    <div class="rule-reward">🏆 Gros lot</div>
                 </div>
 
             </div>
 
             <!-- QR CODE — visible uniquement sur grand écran -->
             <div class="qr-card">
-                <div class="qr-label">Suivre la partie</div>
-                <img class="qr-img" src="http://www.image-heberg.fr/files/17818773104247966598.png"
-                    alt="QR code Bingo Live" />
-
+                <div id="qrcode" class="qr-img"></div>
+                <div class="qr-label">Rejoindre la partie</div>
             </div>
 
         </aside>
 
     </main>
 
-    <script type="module" src="app.js"></script>
+    <!-- QR Code library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrcode"), {
+            text: "https://tbzt.github.io/bingo/",
+            width: 140,
+            height: 140,
+            colorDark: "#111111",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+        });
+    </script>
+
+    <script type="module" src="js/viewer.js"></script>
+
     <div id="drawOverlay" class="draw-overlay hidden">
         <div id="drawBall" class="draw-ball">0</div>
     </div>
+
 </body>
 
 </html>

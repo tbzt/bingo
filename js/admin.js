@@ -36,6 +36,57 @@ function setStatus(msg) {
 }
 
 // ----------------------
+// SUPPRESSION EN ATTENTE
+// ----------------------
+
+let pendingRemove = null;
+let pendingRemoveTimeout = null;
+
+function cancelPendingRemove() {
+  pendingRemove = null;
+  clearTimeout(pendingRemoveTimeout);
+  document
+    .querySelectorAll(".cell.pending-remove")
+    .forEach((c) => c.classList.remove("pending-remove"));
+}
+
+async function removeNumber(n, cell) {
+  if (pendingRemove === n) {
+    // 2e clic : confirmation — on supprime
+    clearTimeout(pendingRemoveTimeout);
+    pendingRemove = null;
+
+    setStatus(`Suppression de ${n}...`);
+
+    const snap = await get(stateRef);
+    const state = snap.exists() ? snap.val() : { current: 0, history: [] };
+
+    state.history = (state.history || []).filter((x) => x !== n);
+
+    // Si c'était le numéro courant, on revient au dernier de l'historique
+    if (state.current === n) {
+      state.current =
+        state.history.length > 0 ? state.history[state.history.length - 1] : 0;
+    }
+
+    await set(stateRef, state);
+    setStatus(`✔ ${n} supprimé`);
+  } else {
+    // 1er clic : on arme la suppression
+    cancelPendingRemove();
+    pendingRemove = n;
+    cell.classList.add("pending-remove");
+    setStatus(`⚠ Reclique sur ${n} pour annuler ce tirage`);
+
+    // Auto-annulation après 3s
+    pendingRemoveTimeout = setTimeout(() => {
+      cancelPendingRemove();
+      setStatus("Prêt");
+    }, 3000);
+  }
+}
+
+// ----------------------
 // RENDER GRILLE
 // ----------------------
 
@@ -52,15 +103,24 @@ function render(state) {
 
     if (used.has(i)) {
       cell.classList.add("used");
-      cell.style.pointerEvents = "none";
+      cell.style.cursor = "pointer";
+
+      // Clic sur tiré = propose de l'annuler
+      cell.addEventListener("click", () => removeNumber(i, cell));
     } else {
       cell.addEventListener("click", () => {
+        cancelPendingRemove();
         sendNumber(i);
       });
     }
 
     if (i === state.current) {
       cell.classList.add("latest");
+    }
+
+    // Mise en évidence si ce numéro est en attente de suppression
+    if (i === pendingRemove) {
+      cell.classList.add("pending-remove");
     }
 
     gridEl.appendChild(cell);
@@ -73,8 +133,6 @@ function render(state) {
 
 function renderProgress(step) {
   const order = ["quine", "doubleQuine", "bingo"];
-
-  // Lignes entre les steps
   const lines = document.querySelectorAll(".progress .line");
 
   order.forEach((s, index) => {
@@ -85,15 +143,9 @@ function renderProgress(step) {
 
     const currentIndex = order.indexOf(step);
 
-    if (index < currentIndex) {
-      el.classList.add("done");
-    }
+    if (index < currentIndex) el.classList.add("done");
+    if (index === currentIndex) el.classList.add("active");
 
-    if (index === currentIndex) {
-      el.classList.add("active");
-    }
-
-    // Remplir la ligne si le step suivant est done ou active
     if (lines[index]) {
       lines[index].classList.toggle("filled", index < currentIndex);
     }
@@ -118,7 +170,6 @@ async function sendNumber(n) {
   }
 
   await set(stateRef, state);
-
   setStatus(`✔ ${n} envoyé`);
 }
 
@@ -131,7 +182,7 @@ let resetArmed = false;
 async function resetGame() {
   if (!resetArmed) {
     resetArmed = true;
-    setStatus("⚠ Reclique pour confirmer");
+    setStatus("⚠ Reclique pour confirmer le reset");
 
     setTimeout(() => {
       resetArmed = false;
@@ -144,9 +195,7 @@ async function resetGame() {
   await set(stateRef, {
     current: 0,
     history: [],
-    rules: {
-      step: "quine",
-    },
+    rules: { step: "quine" },
   });
 
   resetArmed = false;
