@@ -67,11 +67,11 @@ buildGrid();
 
 function renderWaiting(isWaiting) {
   if (isWaiting) {
-    waitingScreenEl.classList.remove("hidden");
     waitingScreenEl.classList.add("visible");
+    waitingScreenEl.classList.remove("hidden");
   } else {
-    waitingScreenEl.classList.remove("visible");
     waitingScreenEl.classList.add("hidden");
+    waitingScreenEl.classList.remove("visible");
   }
 }
 

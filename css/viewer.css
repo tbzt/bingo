@@ -437,21 +437,17 @@ body {
   );
   background-size: 22px 22px;
 
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
-
-  transition: opacity 0.5s ease;
 }
 
 .waiting-screen.hidden {
-  opacity: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .waiting-screen.visible {
-  opacity: 1;
-  pointer-events: all;
+  display: flex;
 }
 
 .waiting-content {

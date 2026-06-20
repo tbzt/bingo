@@ -132,7 +132,7 @@ function render(state) {
 // ----------------------
 
 function renderProgress(step) {
-  const order = ["quine", "doubleQuine", "bingo"];
+  const order = ["waiting", "quine", "doubleQuine", "bingo"];
   const lines = document.querySelectorAll(".progress .line");
 
   order.forEach((s, index) => {
@@ -195,7 +195,7 @@ async function resetGame() {
   await set(stateRef, {
     current: 0,
     history: [],
-    rules: { step: "quine" },
+    rules: { step: "waiting" },
   });
 
   resetArmed = false;

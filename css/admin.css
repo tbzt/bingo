@@ -301,8 +301,17 @@
   opacity: 1;
 }
 
-/* ===================================================== */
-/* GRILLE ADMIN — DESKTOP */
+/* Step Attente — même style que les autres mais couleur distincte par défaut */
+.step.step-waiting {
+  background: #e8f0ff;
+  color: #5577bb;
+}
+
+.step.step-waiting.active {
+  background: #ff9800;
+  color: #111;
+  box-shadow: 0 4px 14px rgba(255, 152, 0, 0.4);
+}
 /* ===================================================== */
 
 .admin .grid {
