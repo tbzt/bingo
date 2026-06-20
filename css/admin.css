@@ -90,7 +90,9 @@
 
 .grid-panel .card #adminGrid {
   flex: 1;
-  align-content: center; /* centre verticalement la grille */
+  align-content: start;
+  overflow-y: auto; /* scroll interne si manque de place */
+  min-height: 0;
 }
 
 /* ===================================================== */

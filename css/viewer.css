@@ -421,6 +421,98 @@ body {
 }
 
 /* ===================================================== */
+/* ÉCRAN D'ATTENTE */
+/* ===================================================== */
+
+.waiting-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background: #f0f4ff;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.5s ease;
+}
+
+.waiting-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.waiting-screen.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.waiting-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+@keyframes waitingFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.waiting-logo {
+  font-size: 80px;
+  animation: waitingFloat 3s ease-in-out infinite;
+}
+
+.waiting-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(32px, 6vw, 72px);
+  letter-spacing: 3px;
+  color: #111;
+  line-height: 1;
+}
+
+.waiting-subtitle {
+  font-family: "DM Sans", sans-serif;
+  font-size: clamp(14px, 2vw, 22px);
+  font-weight: 600;
+  opacity: 0.45;
+  letter-spacing: 1px;
+}
+
+@keyframes waitingPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.waiting-message {
+  margin-top: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-size: clamp(16px, 2.5vw, 26px);
+  font-weight: 700;
+  color: #ff9800;
+  animation: waitingPulse 2s ease-in-out infinite;
+}
+
+/* ===================================================== */
 /* DRAW OVERLAY */
 /* ===================================================== */
 

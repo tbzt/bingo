@@ -27,21 +27,17 @@
 
         <!-- COLONNE GAUCHE -->
         <section class="board">
-
             <div class="last3">
                 <div class="last-header">3 derniers tirages :</div>
                 <div id="lastNumbers" class="last-numbers"></div>
             </div>
-
             <div id="grid" class="bingo-grid"></div>
-
         </section>
 
         <!-- COLONNE DROITE -->
         <aside class="sidebar">
 
             <div class="rules-card">
-
                 <h2>🎯 Règles</h2>
 
                 <div id="rule-quine" class="rule">
@@ -61,10 +57,9 @@
                     <div class="rule-text">Toute la grille complétée</div>
                     <div class="rule-reward">🏆 Gros lot</div>
                 </div>
-
             </div>
 
-            <!-- QR CODE — visible uniquement sur grand écran -->
+            <!-- QR CODE -->
             <div class="qr-card">
                 <div id="qrcode" class="qr-img"></div>
                 <div class="qr-label">Rejoindre la partie</div>
@@ -73,6 +68,16 @@
         </aside>
 
     </main>
+
+    <!-- ÉCRAN D'ATTENTE -->
+    <div id="waitingScreen" class="waiting-screen hidden">
+        <div class="waiting-content">
+            <div class="waiting-logo">🎱</div>
+            <div class="waiting-title">BINGO · FCPE KARL MARX</div>
+            <div class="waiting-subtitle">Édition du 19 juin 2026</div>
+            <div class="waiting-message">La partie commence bientôt…</div>
+        </div>
+    </div>
 
     <!-- QR Code library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>

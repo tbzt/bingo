@@ -24,6 +24,7 @@ const stateRef = ref(db, "bingo");
 
 const gridEl = document.getElementById("grid");
 const lastNumbersEl = document.getElementById("lastNumbers");
+const waitingScreenEl = document.getElementById("waitingScreen");
 
 const cells = {};
 
@@ -36,6 +37,7 @@ const ruleDoubleQuine = document.getElementById("rule-doublequine");
 const ruleBingo = document.getElementById("rule-bingo");
 
 let previousCurrent = null;
+let previousStep = null;
 
 // ----------------------
 // GRID
@@ -48,19 +50,30 @@ function buildGrid() {
     const cell = document.createElement("div");
     cell.className = "cell";
     cell.textContent = i;
-
-    // Délai de shimmer aléatoire pour éviter l'effet synchronisé
     cell.style.setProperty(
       "--shimmer-delay",
       `${(Math.random() * 2).toFixed(2)}s`,
     );
-
     gridEl.appendChild(cell);
     cells[i] = cell;
   }
 }
 
 buildGrid();
+
+// ----------------------
+// ÉCRAN D'ATTENTE
+// ----------------------
+
+function renderWaiting(isWaiting) {
+  if (isWaiting) {
+    waitingScreenEl.classList.remove("hidden");
+    waitingScreenEl.classList.add("visible");
+  } else {
+    waitingScreenEl.classList.remove("visible");
+    waitingScreenEl.classList.add("hidden");
+  }
+}
 
 // ----------------------
 // UPDATE GRID
@@ -74,11 +87,9 @@ function render(history = [], current = null) {
     const wasActive = cell.classList.contains("active");
     const isActive = activeSet.has(num);
 
-    // Pop sur les cellules qui viennent de passer en active
     if (isActive && !wasActive) {
       cell.classList.add("active");
       cell.classList.remove("popping");
-      // Force reflow pour relancer l'animation si déjà présente
       void cell.offsetWidth;
       cell.classList.add("popping");
       cell.addEventListener(
@@ -97,8 +108,7 @@ function render(history = [], current = null) {
 }
 
 function renderRules(rules = {}) {
-  const step = rules.step || "quine";
-
+  const step = rules.step || "waiting";
   const order = ["quine", "doubleQuine", "bingo"];
 
   const elements = {
@@ -115,13 +125,8 @@ function renderRules(rules = {}) {
 
     const stepIndex = order.indexOf(step);
 
-    if (index < stepIndex) {
-      el.classList.add("completed");
-    }
-
-    if (rule === step) {
-      el.classList.add("current-rule");
-    }
+    if (index < stepIndex) el.classList.add("completed");
+    if (rule === step) el.classList.add("current-rule");
   });
 }
 
@@ -134,19 +139,27 @@ onValue(stateRef, (snap) => {
   if (!state) return;
 
   const history = state.history || [];
+  const step = state.rules?.step || "waiting";
+  const isWaiting = step === "waiting";
 
-  // Animation nouveau tirage
-  if (previousCurrent !== null && state.current !== previousCurrent) {
+  // Écran d'attente
+  renderWaiting(isWaiting);
+
+  // Animation nouveau tirage (seulement hors attente)
+  if (
+    !isWaiting &&
+    previousCurrent !== null &&
+    state.current !== previousCurrent
+  ) {
     animateDraw(state.current);
   }
 
   previousCurrent = state.current;
+  previousStep = step;
 
   // Derniers numéros
   const last3 = history.slice(-3).reverse();
-
   lastNumbersEl.innerHTML = "";
-
   last3.forEach((n) => {
     const el = document.createElement("div");
     el.className = "last-chip";
@@ -165,15 +178,12 @@ onValue(stateRef, (snap) => {
 function animateDraw(number) {
   const isStart = number === 0;
 
-  // Texte
   drawBallEl.textContent = isStart ? "🎱 Début" : number;
   drawBallEl.classList.toggle("start-mode", isStart);
 
-  // Reset des classes d'animation
   drawBallEl.classList.remove("dropping", "exiting");
   overlayEl.classList.remove("hidden");
 
-  // Petit délai pour que le DOM applique le reset avant l'animation
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       overlayEl.classList.add("show");
@@ -184,7 +194,6 @@ function animateDraw(number) {
   const duration = isStart ? 2200 : 1400;
 
   setTimeout(() => {
-    // Sortie : la boule tombe vers le bas
     drawBallEl.classList.remove("dropping");
     drawBallEl.classList.add("exiting");
 
