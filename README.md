@@ -5,7 +5,7 @@ Application de bingo en direct avec synchronisation temps réel via Firebase.
 Fonctionnalités principales :
 
 - affichage live des numéros tirés
-- grille bingo fixe de 1 à 99
+- grille bingo fixe de 1 à 90
 - synchronisation instantanée entre admin et écran public
 - gestion des règles de partie
 - animation de tirage
@@ -18,10 +18,10 @@ Fonctionnalités principales :
 
 admin.html permet :
 
-- tirer les numéros
+- tirer/supprimer les numéros
 - voir les numéros déjà utilisés
 - gérer les règles de partie
-- reset la partie
+- reset la partie (double clic nécessaire)
 
 index.html affiche :
 
