@@ -90,9 +90,22 @@
 
 .grid-panel .card #adminGrid {
   flex: 1;
-  align-content: start;
-  overflow-y: auto; /* scroll interne si manque de place */
   min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  /* Les rangées se répartissent la hauteur disponible */
+  grid-template-rows: repeat(9, 1fr);
+  gap: clamp(3px, 0.5vw, 7px);
+  width: 100%;
+  box-sizing: border-box;
+  align-content: stretch;
+}
+
+/* Override la grille définie plus bas pour desktop */
+@media (min-width: 769px) {
+  .admin .grid {
+    display: contents; /* laisse #adminGrid gérer le layout */
+  }
 }
 
 /* ===================================================== */
